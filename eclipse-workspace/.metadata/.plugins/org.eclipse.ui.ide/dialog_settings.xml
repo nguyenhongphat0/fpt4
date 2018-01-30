@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/run/media/nguyenhongphat0/Windows 7/Users/nguyenhongphat0/Documents/EclipseWorkSpace/SWTProject"/>
 		<item value="/home/nguyenhongphat0/eclipse-workspace/WebWithEclipse"/>
 	</list>
 	<section name="CleanDialogSettings">

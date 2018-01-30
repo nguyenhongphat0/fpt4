@@ -24,6 +24,8 @@ public class FrontServlet extends HttpServlet {
     private final String loginPage = "login.html";
     private final String loginServlet = "LoginServlet";
     private final String searchServlet = "SearchServlet";
+    private final String deleteServlet = "DeleteServlet";
+    private final String updateServlet = "UpdateServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -46,6 +48,10 @@ public class FrontServlet extends HttpServlet {
                 url = loginServlet;
             } else if (button.equals("Search")) {
                 url = searchServlet;
+            } else if (button.equals("Delete")) {
+                url = deleteServlet;
+            } else if (button.equals("Update")) {
+                url = updateServlet;
             }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);

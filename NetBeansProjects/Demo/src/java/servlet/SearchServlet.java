@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +25,10 @@ import users.UsersDTO;
  */
 @WebServlet(name = "SearchServlet", urlPatterns = {"/SearchServlet"})
 public class SearchServlet extends HttpServlet {
-    private final String searchResultPage = "SearchResultServlet";
-    private final String searchPage = "search.html";
+//    private final String searchResultPage = "SearchResultServlet";
+    private final String searchResultPage = "search.jsp";
+//    private final String searchPage = "search.html";
+    private final String searchPage = "search.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,7 +54,7 @@ public class SearchServlet extends HttpServlet {
                 List<UsersDTO> res = dao.getUsersList();
                 request.setAttribute("SEARCHRESULT", res);
             }
-        } catch (ClassNotFoundException e) {
+        } catch (NamingException e) {
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();

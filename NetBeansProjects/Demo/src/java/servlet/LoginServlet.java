@@ -8,6 +8,7 @@ package servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,8 @@ import users.UsersDAO;
  */
 public class LoginServlet extends HttpServlet {
     private final String invalidPage = "invalid.html";
-    private final String searchPage = "search.html";
+//    private final String searchPage = "search.html";
+    private final String searchPage = "search.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,7 +51,7 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (NamingException e) {
             e.printStackTrace();
         } finally {
 //            response.sendRedirect(url);

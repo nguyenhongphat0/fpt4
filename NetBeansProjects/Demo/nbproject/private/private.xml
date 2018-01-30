@@ -5,7 +5,14 @@
         <group>
             <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/src/java/users/UsersDAO.java</file>
             <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/src/java/servlet/FrontServlet.java</file>
-            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/src/java/servlet/SearchServlet.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/web/META-INF/context.xml</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/web/search.html</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/src/java/utils/DBUtils.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/web/search.jsp</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/src/java/servlet/UpdateServlet.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/src/java/servlet/DeleteServlet.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/web/updateError.html</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/Demo/src/java/servlet/LoginServlet.java</file>
         </group>
     </open-files>
 </project-private>
