@@ -14,12 +14,24 @@
         <title>Search</title>
     </head>
     <body>
+        <font color="red">
+            Welcome, 
+            <%
+                String username = null;
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    username = cookies[cookies.length - 2].getName();
+                }
+            %>
+            <%= username %>
+        </font>
+        
         <%
             String searchValue = request.getParameter("txtSearchValue");
         %>
         <h1>Search Page</h1>
         <form action="FrontServlet">
-            Search Value <input type="text" name="txtSearchValue" value="<%= searchValue %>" /><br>
+            Search Value <input type="text" name="txtSearchValue" value="<%= searchValue == null ? "" : searchValue %>" /><br>
             <input type="submit" value="Search" name="btnAction" />
         </form>
         <br>
@@ -101,5 +113,6 @@
                 }
             }
         %>
+        <a href="shoppingOnline.html">Buy some books</a>
     </body>
 </html>

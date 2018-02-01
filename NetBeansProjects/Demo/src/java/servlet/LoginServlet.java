@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,9 @@ public class LoginServlet extends HttpServlet {
             boolean result = dao.checkLogin(username, password);
             if (result) {
                 url = searchPage;
+                Cookie c = new Cookie(username, password);
+                c.setMaxAge(60*15);
+                response.addCookie(c);
             }
         } catch (SQLException e) {
             e.printStackTrace();

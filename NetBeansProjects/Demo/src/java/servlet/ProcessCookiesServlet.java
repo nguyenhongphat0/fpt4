@@ -7,27 +7,26 @@ package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import users.UsersDAO;
 
 /**
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "FrontServlet", urlPatterns = {"/FrontServlet"})
-public class FrontServlet extends HttpServlet {
-
+@WebServlet(name = "ProcessCookiesServlet", urlPatterns = {"/ProcessCookiesServlet"})
+public class ProcessCookiesServlet extends HttpServlet {
     private final String loginPage = "login.html";
-    private final String loginServlet = "LoginServlet";
-    private final String searchServlet = "SearchServlet";
-    private final String deleteServlet = "DeleteServlet";
-    private final String updateServlet = "UpdateServlet";
-    private final String nullServlet = "ProcessCookiesServlet";
-    private final String addBookToCartServlet = "AddBookToCartServlet";
+    private final String searchPage = "search.jsp";
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,27 +39,25 @@ public class FrontServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         String url = loginPage;
         try {
-            String button = request.getParameter("btnAction");
-            if (button == null) {
-                url = nullServlet;
-            } else if (button.equals("Login")) {
-                url = loginServlet;
-            } else if (button.equals("Search")) {
-                url = searchServlet;
-            } else if (button.equals("Delete")) {
-                url = deleteServlet;
-            } else if (button.equals("Update")) {
-                url = updateServlet;
-            } else if (button.equals("Add to cart")) {
-                url = addBookToCartServlet;
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    String username = cookie.getName();
+                    String password = cookie.getValue();
+                    UsersDAO dao = new UsersDAO();
+                    boolean res = dao.checkLogin(username, password);
+                    if (res) {
+                        url = searchPage;
+                    }
+                }
             }
+        } catch (SQLException e) {
+        } catch (NamingException e) {
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            out.close();
         }
     }
 

@@ -1,0 +1,11 @@
+User story based on roles:
+	1. As a guest, i want to browse near by user.
+	2. As a guest, i want to sign up for account.
+	3  As a member, i want to sign in my account.
+	4. As a member, i want browse near by user.
+	5. As a member, i want to display my location on map.
+	6. As a member, i want to view profile of a user.
+	7. As a member, i want to send interest to another user.
+	8. As a member, i want to send message to another user.
+	9. As a member, i want to logout.
+

@@ -5,29 +5,24 @@
  */
 package servlet;
 
+import cart.CartObject;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "FrontServlet", urlPatterns = {"/FrontServlet"})
-public class FrontServlet extends HttpServlet {
+@WebServlet(name = "AddBookToCartServlet", urlPatterns = {"/AddBookToCartServlet"})
+public class AddBookToCartServlet extends HttpServlet {
+    private final String shoppingPage = "shoppingOnline.html";
 
-    private final String loginPage = "login.html";
-    private final String loginServlet = "LoginServlet";
-    private final String searchServlet = "SearchServlet";
-    private final String deleteServlet = "DeleteServlet";
-    private final String updateServlet = "UpdateServlet";
-    private final String nullServlet = "ProcessCookiesServlet";
-    private final String addBookToCartServlet = "AddBookToCartServlet";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,27 +35,28 @@ public class FrontServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String url = loginPage;
+        String url = shoppingPage;
         try {
-            String button = request.getParameter("btnAction");
-            if (button == null) {
-                url = nullServlet;
-            } else if (button.equals("Login")) {
-                url = loginServlet;
-            } else if (button.equals("Search")) {
-                url = searchServlet;
-            } else if (button.equals("Delete")) {
-                url = deleteServlet;
-            } else if (button.equals("Update")) {
-                url = updateServlet;
-            } else if (button.equals("Add to cart")) {
-                url = addBookToCartServlet;
+            // 1. Den noi lay gio
+            HttpSession session = request.getSession();
+            
+            // 2. Lay cai gio
+            CartObject cart = (CartObject) session.getAttribute("CART");
+            if (cart == null) {
+                cart = new CartObject();
             }
+            
+            // 3. Bo do vao gio
+            String title = request.getParameter("cboBook");
+            cart.addItemToCart(title);
+            
+            // 4. Cap nhat scope
+            session.setAttribute("CART", cart);
+            
+            // 5. Di cho tiep
+        } catch (Exception e) {
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
+            response.sendRedirect(url);
         }
     }
 
