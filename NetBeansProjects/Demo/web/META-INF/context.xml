@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context path="/Demo">
-    <Resource name="Datasource" type="javax.sql.DataSource" auth="Container"
-        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" url="jdbc:sqlserver://localhost:1433;databaseName=JAVAWEB" 
-        username="sa" password="HongPhat0"/>
-</Context>
