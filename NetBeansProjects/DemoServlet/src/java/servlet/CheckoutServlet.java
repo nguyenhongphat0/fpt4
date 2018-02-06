@@ -5,34 +5,33 @@
  */
 package servlet;
 
+import session.CartObject;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.sql.SQLException;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.swing.RowFilter;
+import order.OrderDAO;
+import order.OrderDTO;
 
 /**
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "FrontServlet", urlPatterns = {"/FrontServlet"})
-public class FrontServlet extends HttpServlet {
+@WebServlet(name = "CheckoutServlet", urlPatterns = {"/CheckoutServlet"})
+public class CheckoutServlet extends HttpServlet {
+    private final String successPage = "shoppingOnline.html";
+    private final String errorPage = "viewcart.jsp";
 
-    private final String loginPage = "login.html";
-    private final String loginServlet = "LoginServlet";
-    private final String searchServlet = "SearchServlet";
-    private final String deleteServlet = "DeleteServlet";
-    private final String updateServlet = "UpdateServlet";
-    private final String nullServlet = "ProcessCookiesServlet";
-    private final String addBookToCartServlet = "AddBookToCartServlet";
-    private final String viewCartPage = "viewcart.jsp";
-    private final String removeBookFromCartServlet = "RemoveBookFromCartServlet";
-    private final String registerServlet = "RegisterServlet";
-    private final String checkoutServlet = "CheckoutServlet";
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,35 +44,23 @@ public class FrontServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String url = loginPage;
+        String url = errorPage;
         try {
-            String button = request.getParameter("btnAction");
-            if (button == null) {
-                url = nullServlet;
-            } else if (button.equals("Login")) {
-                url = loginServlet;
-            } else if (button.equals("Search")) {
-                url = searchServlet;
-            } else if (button.equals("Delete")) {
-                url = deleteServlet;
-            } else if (button.equals("Update")) {
-                url = updateServlet;
-            } else if (button.equals("Add to cart")) {
-                url = addBookToCartServlet;
-            } else if (button.equals("View cart")) {
-                url = viewCartPage;
-            } else if (button.equals("Remove")) {
-                url = removeBookFromCartServlet;
-            } else if (button.equals("Register")) {
-                url = registerServlet;
-            } else if (button.equals("Checkout")) {
-                url = checkoutServlet;
+            HttpSession session = request.getSession();
+            CartObject cart = (CartObject) session.getAttribute("CART");
+            OrderDAO dao = new OrderDAO();
+            OrderDTO dto = new OrderDTO(cart);
+            boolean res = dao.saveOrderToDB(dto);
+            if (res) {
+                url = successPage;
+                session.removeAttribute("CART");
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            out.close();
+            response.sendRedirect(url);
         }
     }
 
