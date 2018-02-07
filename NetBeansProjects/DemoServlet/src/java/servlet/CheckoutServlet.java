@@ -56,9 +56,9 @@ public class CheckoutServlet extends HttpServlet {
                 session.removeAttribute("CART");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+            log("CheckoutServlet _ SQLException: " + ex.getMessage());
         } catch (NamingException ex) {
-            Logger.getLogger(CheckoutServlet.class.getName()).log(Level.SEVERE, null, ex);
+            log("CheckoutServlet _ NamingException: " + ex.getMessage());
         } finally {
             response.sendRedirect(url);
         }
