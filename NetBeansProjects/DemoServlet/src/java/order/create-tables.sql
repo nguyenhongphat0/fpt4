@@ -6,7 +6,7 @@ create table orders (
 
 create table orders_detail (
 	id int not null primary key identity(1,1),
-	order_id int not null foreign key references orders(id)
+	order_id int not null foreign key references orders(id),
 	book varchar(255) not null,
 	quantity int not null
 )
