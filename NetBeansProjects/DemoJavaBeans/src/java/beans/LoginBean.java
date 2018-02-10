@@ -1,6 +1,11 @@
 package beans;
 
 import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
+import users.UsersDAO;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -38,5 +43,17 @@ public class LoginBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public boolean checkLogin() {
+        UsersDAO dao = new UsersDAO();
+        try {
+            return dao.checkLogin(username, password);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 }
