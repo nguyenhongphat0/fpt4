@@ -91,7 +91,7 @@ public class UsersDAO implements Serializable {
                     String username = rs.getString("username");
                     String password = rs.getString("password");
                     String lastname = rs.getString("fullname");
-                    boolean role = rs.getBoolean("roles");
+                    boolean role = rs.getBoolean("is_admin");
                     
                     UsersDTO dto = new UsersDTO(username, password, lastname, role);
                     if (this.usersList == null) {
@@ -157,7 +157,7 @@ public class UsersDAO implements Serializable {
             con = DBUtils.makeConnection();
             if (con != null) {
                 // 2. Tao cau lenh truy van
-                String sql = "UPDATE Users SET password = ?, roles = ? WHERE username = ?";
+                String sql = "UPDATE Users SET password = ?, is_admin = ? WHERE username = ?";
                 
                 // 3. Tao statement
                 stm = con.prepareStatement(sql);

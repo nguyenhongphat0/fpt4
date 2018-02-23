@@ -22,7 +22,7 @@ public class OrderDAO implements Serializable {
     private boolean saveOrderDetailToDB(String book, int quantity, int orderId) 
             throws SQLException, NamingException {
         Connection conn = DBUtils.makeConnection();
-        String url = "INSERT INTO orders_detail(order_id, book, quantity) VALUES (?, ?, ?)";
+        String url = "INSERT INTO order_detail(order_id, product, quantity) VALUES (?, ?, ?)";
         PreparedStatement pre = conn.prepareStatement(url);
         pre.setInt(1, orderId);
         pre.setString(2, book);
@@ -33,7 +33,7 @@ public class OrderDAO implements Serializable {
     public boolean saveOrderToDB(OrderDTO order) 
             throws SQLException, NamingException {
         Connection conn = DBUtils.makeConnection();
-        String url = "INSERT INTO orders(total) VALUES (?)";
+        String url = "INSERT INTO orders(total_quantity) VALUES (?)";
         PreparedStatement pre = conn.prepareStatement(url, Statement.RETURN_GENERATED_KEYS);
         pre.setInt(1, order.getTotalQuantity());
         boolean res = pre.executeUpdate() > 0;

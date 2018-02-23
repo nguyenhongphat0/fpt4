@@ -15,7 +15,7 @@ public class UsersDTO implements Serializable {
     private String username;
     private String password;
     private String lastname;
-    private boolean roles;
+    private boolean isAdmin;
 
     public UsersDTO() {
     }
@@ -24,7 +24,7 @@ public class UsersDTO implements Serializable {
         this.username = username;
         this.password = password;
         this.lastname = lastname;
-        this.roles = roles;
+        this.isAdmin = roles;
     }
 
     /**
@@ -73,18 +73,18 @@ public class UsersDTO implements Serializable {
      * @return the roles
      */
     public boolean isRoles() {
-        return roles;
+        return isAdmin;
     }
 
     /**
      * @param roles the roles to set
      */
     public void setRoles(boolean roles) {
-        this.roles = roles;
+        this.isAdmin = roles;
     }
 
     @Override
     public String toString() {
-        return "UsersDTO{" + "username=" + username + ", password=" + password + ", lastname=" + lastname + ", roles=" + roles + '}';
+        return "UsersDTO{" + "username=" + username + ", password=" + password + ", lastname=" + lastname + ", roles=" + isAdmin + '}';
     }
 }
