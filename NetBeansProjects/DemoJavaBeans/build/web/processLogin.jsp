@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,6 +29,11 @@
         <jsp:setProperty name="login" property="password" />
     --%>
         <jsp:setProperty name="login" property="*" />
+        <c:if test="${login.checkLogin()}">
+            <jsp:forward page="search.jsp"></jsp:forward>
+        </c:if>
+    
+    <%--
         <%
             if (login.checkLogin()) {
                 %>
@@ -36,6 +42,7 @@
             }
             System.out.println("Chay toi day");
         %>
+    --%>
         <jsp:forward page="invalid.html"/>
         
         Test: <br>

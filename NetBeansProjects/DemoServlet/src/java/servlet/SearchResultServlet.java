@@ -77,7 +77,7 @@ public class SearchResultServlet extends HttpServlet {
                             + dto.getLastname()
                             + "</td>");
                     out.println("<td>"
-                            + dto.isRoles()
+                            + dto.getRole()
                             + "</td>");
                     out.println("</tr>");
                 }

@@ -4,6 +4,7 @@
     Author     : nguyenhongphat0
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.Map"%>
 <%@page import="session.CartObject"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,7 +16,28 @@
     </head>
     <body>
         <h1>Your cart includes</h1>
-        <%
+        <c:set var="cart" value="${sessionScope.CART}"></c:set>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Book name</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="book" items="${cart.items}" varStatus="c">
+                    <tr>
+                        <td>${c.count}</td>
+                        <td>${book.key}</td>
+                        <td>${book.value}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+
+        
+        <%--
             // 1. Den cho lay gio hang
             if (session != null) {
                 // 2. Lay cai gio
@@ -71,7 +93,8 @@
                 }
             }   
         }
-        %>
         <h2>Your cart is not existed!!!!</h2>
+        
+        --%>
     </body>
 </html>

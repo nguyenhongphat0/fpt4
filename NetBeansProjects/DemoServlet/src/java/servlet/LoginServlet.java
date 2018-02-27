@@ -15,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import users.UsersDAO;
 
 /**
@@ -49,9 +50,11 @@ public class LoginServlet extends HttpServlet {
             boolean result = dao.checkLogin(username, password);
             if (result) {
                 url = searchPage;
-                Cookie c = new Cookie(username, password);
-                c.setMaxAge(60*15);
-                response.addCookie(c);
+//                Cookie c = new Cookie(username, password);
+//                c.setMaxAge(60*15);
+//                response.addCookie(c);
+                HttpSession session = request.getSession();
+                session.setAttribute("USER", username);
             }
         } catch (SQLException e) {
             e.printStackTrace();
