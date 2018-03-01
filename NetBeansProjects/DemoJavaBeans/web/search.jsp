@@ -1,5 +1,6 @@
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib tagdir="/WEB-INF/tags/" prefix="my"%>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -15,14 +16,14 @@ and open the template in the editor.
     <body>
         <span>Welcome, ${sessionScope.login.username}</span>
         <h1>Search page</h1>
-        
+
         Pars: <br>
         ${param.username} <br>
         ${param.password} <br>
         ${param.submit} <br>
         ${param.aparam} <br>
         ${param.anotherparam} <br>
-        
+
         <form action="search.jsp">
             Search value <input type="text" name="searchValue" value="" /><br>
             <input type="submit" value="Search" />
@@ -35,33 +36,45 @@ and open the template in the editor.
                     SELECT username as 'Ten', password as 'Mat khau', fullname as 'Ho va Ten', is_admin as 'Admin' FROM users WHERE fullname LIKE ?
                     <sql:param value="%${searchValue}%"></sql:param>
                 </sql:query>
-                    <c:if test="${res.rowCount gt 0}">
-                        <table border="1">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
+                <c:if test="${res.rowCount gt 0}">
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
                                     <c:forEach var="colName" items="${res.columnNames}">
-                                        <th>${colName}</th>
+                                    <th>${colName}</th>
+                                    </c:forEach>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="row" items="${res.rowsByIndex}" varStatus="counter">
+                                <tr>
+                                    <td>${counter.count}</td>
+                                    <c:forEach var="col" items="${row}">
+                                        <td>${col}</td>
                                     </c:forEach>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="row" items="${res.rowsByIndex}" varStatus="counter">
-                                    <tr>
-                                        <td>${counter.count}</td>
-                                        <c:forEach var="col" items="${row}">
-                                            <td>${col}</td>
-                                        </c:forEach>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                            </c:forEach>
+                        </tbody>
+                    </table>
 
-                    </c:if>
-                    <c:if test="${res.rowCount eq 0}">
-                        <h2>No record is matched!!!!</h2>
-                    </c:if>
+                </c:if>
+                <c:if test="${res.rowCount eq 0}">
+                    <h2>No record is matched!!!!</h2>
+                </c:if>
             </c:if>
         </c:if>
+
+        <h2>
+            Tag file demo
+        </h2>
+        <my:dataGrid dataSource="Datasource" 
+                     sql="SELECT * FROM users WHERE fullname LIKE ?" 
+                     searchValue="%${param.searchValue}%">
+        </my:dataGrid>
+        <my:dataGrid dataSource="Datasource" 
+                     sql="SELECT * FROM users WHERE username = ? AND password = ? AND fullname LIKE ?" 
+                     pardm="hongphat" pbram="%h%" pcram="nguyenhongphat0">
+        </my:dataGrid>
     </body>
 </html>
