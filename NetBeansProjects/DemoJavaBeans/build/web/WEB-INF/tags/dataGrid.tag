@@ -5,25 +5,22 @@
 --%>
 
 <%@tag description="put the tag description here" pageEncoding="UTF-8"%>
-<%@tag dynamic-attributes="params"  %>
+<%@tag dynamic-attributes="da"  %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%-- The list of normal or fragment attributes can be specified here: --%>
 <%@attribute name="dataSource" required="true"%>
 <%@attribute name="sql" required="true" %>
-
+<%@attribute name="params" %>
 <%-- any content can be specified here e.g.: --%>
 <sql:setDataSource var="con" dataSource="${dataSource}"></sql:setDataSource>
 <c:if test="${not empty con}">
     <sql:query var="res" dataSource="${con}">
         ${sql}
-        <c:forEach var="entry" items="${params}">
-            <sql:param value="${entry.value}"></sql:param>
-        </c:forEach>
+        <c:forTokens var="p" delims="|" items="${params}">
+            <sql:param value="${p}"></sql:param>
+        </c:forTokens>
     </sql:query>
-    <c:forEach var="entry" items="${params}">
-        ${entry.key} -> ${entry.value}
-    </c:forEach>
     <c:if test="${res.rowCount gt 0}">
         <table border="1">
             <thead>

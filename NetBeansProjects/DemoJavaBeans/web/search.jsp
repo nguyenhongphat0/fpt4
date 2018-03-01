@@ -69,12 +69,12 @@ and open the template in the editor.
             Tag file demo
         </h2>
         <my:dataGrid dataSource="Datasource" 
-                     sql="SELECT * FROM users WHERE fullname LIKE ?" 
-                     searchValue="%${param.searchValue}%">
+                     sql="SELECT username as 'Name', fullname as 'Fullname' FROM users WHERE fullname LIKE ?" 
+                     params="%${param.searchValue}%">
         </my:dataGrid>
         <my:dataGrid dataSource="Datasource" 
                      sql="SELECT * FROM users WHERE username = ? AND password = ? AND fullname LIKE ?" 
-                     pardm="hongphat" pbram="%h%" pcram="nguyenhongphat0">
+                     params="nguyenhongphat0|hongphat|%h%">
         </my:dataGrid>
     </body>
 </html>
