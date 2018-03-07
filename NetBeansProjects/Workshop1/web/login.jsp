@@ -12,11 +12,12 @@
         <title>Login</title>
     </head>
     <body>
-        <h1>Welcome User, enter your username and password to login!</h1>
+        <h1>Welcome back, enter your username and password to login!</h1>
+        <font color="red">${requestScope.message}</font>
         <form action="Login.do" method="POST">
-            Username <input type="text" name="username" value="" /><br>
+            Username <input type="text" name="userId" value="" /><br>
             Password <input type="password" name="password" value="" /><br>
-            <input type="submit" value="Login" /><br>
+            <input type="submit" value="Login" />
             <input type="reset" value="Reset" />
         </form>
     </body>

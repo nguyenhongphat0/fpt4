@@ -1,9 +1,10 @@
+package phatnh.filter;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package filter;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -15,14 +16,19 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
  * @author nguyenhongphat0
  */
-@WebFilter(filterName = "FilterDispatcher", urlPatterns = {"/*"})
-public class FilterDispatcher implements Filter {
+public class DispatcherFilter implements Filter {
+    public static final String loginPage = "login.jsp";
+    public static final String staffPage = "staff.jsp";
+    public static final String searchPage = "search.jsp";
+    public static final String managerPage = "manager.html";
+    public static final String deleteErrorPage = "deleteError.html";
+    public static final String updateErrorPage = "updateError.html";
     
     private static final boolean debug = true;
 
@@ -31,7 +37,7 @@ public class FilterDispatcher implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public FilterDispatcher() {
+    public DispatcherFilter() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
@@ -96,39 +102,18 @@ public class FilterDispatcher implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        
-        if (debug) {
-            log("FilterDispatcher:doFilter()");
-        }
-        
-        doBeforeProcessing(request, response);
-        
-        Throwable problem = null;
-        try {
+        HttpServletRequest http = (HttpServletRequest) request;
+        String path = http.getRequestURI();
+        String resource = path.substring(path.lastIndexOf("/"));
+        String url = resource;
+        if (resource.contains(".do")) {
+            url = resource.replace(".do", "Servlet");
+            request.getRequestDispatcher(url)
+                    .forward(request, response);
+        } else {
             chain.doFilter(request, response);
-        } catch (Throwable t) {
-            // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
-            t.printStackTrace();
-        }
-        
-        doAfterProcessing(request, response);
-
-        // If there was a problem, we want to rethrow it if it is
-        // a known type, otherwise log it.
-        if (problem != null) {
-            if (problem instanceof ServletException) {
-                throw (ServletException) problem;
-            }
-            if (problem instanceof IOException) {
-                throw (IOException) problem;
-            }
-            sendProcessingError(problem, response);
         }
     }
 
