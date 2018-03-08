@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package phatnh.mobile;
+package phatnh.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,10 +12,10 @@ import java.util.Map;
  *
  * @author nguyenhongphat0
  */
-public class InsertMobileValidator {
+public class ParamenterValidator {
     private  Map<String, String> errors;
 
-    public InsertMobileValidator() {
+    public ParamenterValidator() {
         this.errors = new HashMap<>();
     }
 

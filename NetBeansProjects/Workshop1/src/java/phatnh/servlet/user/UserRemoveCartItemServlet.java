@@ -3,30 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package phatnh.servlet;
+package phatnh.servlet.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import phatnh.cart.CartDTO;
 import phatnh.filter.DispatcherFilter;
-import phatnh.user.UserDAO;
-import phatnh.user.UserDTO;
 
 /**
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "UserRemoveCartItem", urlPatterns = {"/UserRemoveCartItemServlet"})
+public class UserRemoveCartItemServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,39 +34,13 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = DispatcherFilter.loginPage;
-        try {
-            String username = request.getParameter("userId");
-            String passwordText = request.getParameter("password");
-            int password = Integer.parseInt(passwordText);
-            UserDAO dao = new UserDAO();
-            UserDTO dto = dao.login(username, password);
-            if (dto == null) {
-                request.setAttribute("message", "Incorrect username or password");
-            } else {
-                HttpSession session = request.getSession(true);
-                session.setAttribute("USER", dto);
-                switch (dto.getRole()) {
-                    case 0:
-                        url = DispatcherFilter.userPage;
-                        break;
-                    case 1:
-                        url = DispatcherFilter.managerPage;
-                        break;
-                    case 2:
-                        url = DispatcherFilter.staffPage;
-                }
-                response.sendRedirect(url);
-                return;
-            }
-        } catch (NamingException ex) {
-            log("LoginServlet - NamingException: " + ex.getMessage());
-        } catch (SQLException ex) {
-            log("LoginServlet - SQLException: " + ex.getMessage());
-        } catch (NumberFormatException ex) {
-            request.setAttribute("message", "Password is a number");
+        String mobileId = request.getParameter("mobileId");
+        HttpSession session = request.getSession();
+        CartDTO cart = (CartDTO) session.getAttribute("CART");
+        if (cart != null) {
+            cart.removeFromCart(mobileId);
         }
-        request.getRequestDispatcher(url).forward(request, response);
+        request.getRequestDispatcher(DispatcherFilter.userSearchServlet).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

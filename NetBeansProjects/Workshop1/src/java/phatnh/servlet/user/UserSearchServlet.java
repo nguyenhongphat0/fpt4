@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package phatnh.servlet.staff;
+package phatnh.servlet.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,15 +17,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import phatnh.filter.DispatcherFilter;
-import phatnh.utils.ParamenterValidator;
 import phatnh.mobile.MobileDAO;
+import phatnh.utils.ParamenterValidator;
 
 /**
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "AddMobileServlet", urlPatterns = {"/StaffAddMobileServlet"})
-public class StaffAddMobileServlet extends HttpServlet {
+@WebServlet(name = "UserSearchServlet", urlPatterns = {"/UserSearchServlet"})
+public class UserSearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,46 +38,27 @@ public class StaffAddMobileServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = DispatcherFilter.staffPage;
-        ParamenterValidator validator = new ParamenterValidator();
         try {
-            String mobileId = request.getParameter("newMobileId");
-            validator.checkLength(mobileId, 1, 10, "idLength", "Id 1-10 characters");
-            String description = request.getParameter("description");
-            validator.checkLength(description, 1, 250, "descriptionLength", "Description 1-250 characters");
-            String priceS = request.getParameter("price");
-            float price = validator.checkFloat(priceS, "priceFormat", "Price is a float");
-            String mobileName = request.getParameter("newMobileName");
-            validator.checkLength(mobileName, 1, 20, "nameLength", "Name 1-20 characters");
-            String yearOfProductionS = request.getParameter("yearOfProduction");
-            int yearOfProduction = validator.checkInt(yearOfProductionS, "yearFormat", "Year is a number");            
-            String quantityS = request.getParameter("quantity");
-            int quantity = validator.checkInt(quantityS, "quantityFormat", "Quantity is a number");
-            String notSaleS = request.getParameter("notSale");
-            boolean notSale = false;
-            if (notSaleS == null) {
-                notSale = true;
-            }
-            if (validator.getErrors().isEmpty()) {
-                MobileDAO dao = new MobileDAO();
-                boolean res = dao.addMobile(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale);
-                if (res) {
-                    url = DispatcherFilter.staffSearchServlet
-                            + "?mobileId=" + mobileId;
-                }
+            String minPriceS = request.getParameter("minPrice");
+            String maxPriceS = request.getParameter("maxPrice");
+            ParamenterValidator pv = new ParamenterValidator();
+            float minPrice = pv.checkFloat(minPriceS, "minFormat", "Invalid float number in min price");
+            float maxPrice = pv.checkFloat(maxPriceS, "maxFormat", "Invalid float number in max price");
+            MobileDAO dao = new MobileDAO();
+            dao.searchPriceInRange(minPrice, maxPrice);
+            if (dao.getList() != null) {
+                request.setAttribute("RES", dao.getList());
+            } else {
+                request.setAttribute("message", "No mobile phone in that price range");
             }
         } catch (SQLException ex) {
-            if (ex.getMessage().contains("duplicate")) {
-                validator.setError("pk", "Mobile ID existed");
-            } else {
-                Logger.getLogger(StaffAddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Logger.getLogger(UserSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NamingException ex) {
-            Logger.getLogger(StaffAddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            request.setAttribute("errors", validator.getErrors());
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher(DispatcherFilter.userPage).forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

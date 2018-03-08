@@ -169,4 +169,42 @@ public class MobileDAO {
             }
         }
     }
+    
+    public void searchPriceInRange(float min, float max) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet res = null;
+        try {
+            con = DatabaseUtils.getConnection();
+            String sql = "SELECT * FROM tbl_Mobile WHERE price >= ? AND price <= ?";
+            pre = con.prepareStatement(sql);
+            pre.setFloat(1, min);
+            pre.setFloat(2, max);
+            res = pre.executeQuery();
+            while (res.next()) {                
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
+                String mobileId = res.getString("mobileId");
+                String description = res.getString("description");
+                float price = res.getFloat("price");
+                String name = res.getString("mobileName");
+                int yearOfProduction = res.getInt("yearOfProduction");
+                int quantity = res.getInt("quantity");
+                boolean notSale = res.getBoolean("notSale");
+                MobileDTO dto = new MobileDTO(mobileId, description, price, name, yearOfProduction, quantity, notSale);
+                list.add(dto);
+            }
+        } finally {
+            if (res != null) {
+                res.close();
+            }
+            if (pre != null) {
+                pre.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
 }

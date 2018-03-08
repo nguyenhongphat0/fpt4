@@ -14,7 +14,7 @@
     </head>
     <body>
         Welcome ${sessionScope.USER.fullName} (Staff)<br>
-        <a href="../Logout.do">Logout</a>
+        <a href="Logout.do">Logout</a>
         <h2>Search</h2>
         <form action="StaffSearch.do">
             Search device with ID: 

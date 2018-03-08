@@ -24,7 +24,7 @@ import phatnh.filter.DispatcherFilter;
  *
  * @author nguyenhongphat0
  */
-@WebServlet(urlPatterns = {"/staff/StaffSearchServlet"})
+@WebServlet(urlPatterns = {"/StaffSearchServlet"})
 public class StaffSearchServlet extends HttpServlet {
 
     /**
