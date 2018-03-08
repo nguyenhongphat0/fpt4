@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package mobile;
+package phatnh.mobile;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -134,6 +134,34 @@ public class MobileDAO {
             return res > 0;
         } finally {
             if (pre != null) {
+                pre.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
+    public boolean addMobile(String mobileId, String description, float price, String mobileName, int yearOfProduction, int quantity, boolean notSale) 
+            throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement pre = null;
+        try {
+            con = DatabaseUtils.getConnection();
+            String sql = "INSERT INTO tbl_Mobile VALUES (?, ?, ?, ?, ?, ?, ?)";
+            pre = con.prepareStatement(sql);
+            pre.setString(1, mobileId);
+            pre.setString(2, description);
+            pre.setFloat(3, price);
+            pre.setString(4, mobileName);
+            pre.setInt(5, yearOfProduction);
+            pre.setInt(6, quantity);
+            pre.setBoolean(7, notSale);
+            int res = pre.executeUpdate();
+            return res > 0;
+        } finally {
+            if (pre != null)
+            {
                 pre.close();
             }
             if (con != null) {

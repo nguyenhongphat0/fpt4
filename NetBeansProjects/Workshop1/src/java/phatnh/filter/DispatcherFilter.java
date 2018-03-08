@@ -29,6 +29,7 @@ public class DispatcherFilter implements Filter {
     public static final String managerPage = "manager.html";
     public static final String deleteErrorPage = "deleteError.html";
     public static final String updateErrorPage = "updateError.html";
+    public static final String insertErrorPage = "insertError.html";
     
     private static final boolean debug = true;
 

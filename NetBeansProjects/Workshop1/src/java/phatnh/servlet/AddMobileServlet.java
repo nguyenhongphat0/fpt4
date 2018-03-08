@@ -16,15 +16,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import phatnh.mobile.MobileDAO;
 import phatnh.filter.DispatcherFilter;
+import phatnh.mobile.InsertMobileValidator;
+import phatnh.mobile.MobileDAO;
 
 /**
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "UpdateServlet", urlPatterns = {"/UpdateServlet"})
-public class UpdateServlet extends HttpServlet {
+@WebServlet(name = "AddMobileServlet", urlPatterns = {"/AddMobileServlet"})
+public class AddMobileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,34 +38,45 @@ public class UpdateServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = DispatcherFilter.updateErrorPage;
+        String url = DispatcherFilter.staffPage;
+        InsertMobileValidator validator = new InsertMobileValidator();
         try {
-            String priceS = request.getParameter("price");
-            float price = Float.parseFloat(priceS);
+            String mobileId = request.getParameter("newMobileId");
+            validator.checkLength(mobileId, 1, 10, "idLength", "Id 1-10 characters");
             String description = request.getParameter("description");
+            validator.checkLength(description, 1, 250, "descriptionLength", "Description 1-250 characters");
+            String priceS = request.getParameter("price");
+            float price = validator.checkFloat(priceS, "priceFormat", "Price is a float");
+            String mobileName = request.getParameter("newMobileName");
+            validator.checkLength(mobileName, 1, 20, "nameLength", "Name 1-20 characters");
+            String yearOfProductionS = request.getParameter("yearOfProduction");
+            int yearOfProduction = validator.checkInt(yearOfProductionS, "yearFormat", "Year is a number");            
             String quantityS = request.getParameter("quantity");
-            int quantity = Integer.parseInt(quantityS);
+            int quantity = validator.checkInt(quantityS, "quantityFormat", "Quantity is a number");
             String notSaleS = request.getParameter("notSale");
             boolean notSale = false;
             if (notSaleS == null) {
                 notSale = true;
             }
-            String mobileId = request.getParameter("mobileId");
-            String lastSearchId = request.getParameter("lastSearchId");
-            String lastSearchName = request.getParameter("lastSearchName");
-            MobileDAO dao = new MobileDAO();
-            boolean res = dao.updateMobile(mobileId, price, description, quantity, notSale);
-            if (res) {
-                url = "Search.do"
-                        + "?mobileId=" + lastSearchId
-                        + "&mobileName=" + lastSearchName;
+            if (validator.getErrors().isEmpty()) {
+                MobileDAO dao = new MobileDAO();
+                boolean res = dao.addMobile(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale);
+                if (res) {
+                    url = "SearchServlet"
+                            + "?mobileId=" + mobileId;
+                }
+            }
+        } catch (SQLException ex) {
+            if (ex.getMessage().contains("duplicate")) {
+                validator.setError("pk", "Mobile ID existed");
+            } else {
+                Logger.getLogger(AddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            response.sendRedirect(url);
+            request.setAttribute("errors", validator.getErrors());
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
