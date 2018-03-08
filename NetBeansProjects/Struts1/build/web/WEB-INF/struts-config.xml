@@ -7,6 +7,7 @@
 
 <struts-config>
     <form-beans>
+        <form-bean name="SearchStrutsActionForm" type="struts.search.SearchStrutsActionForm"/>
         <form-bean name="LoginStrutsActionForm" type="struts.login.LoginStrutsActionForm"/>
     
     </form-beans>
@@ -24,6 +25,13 @@
         <action input="/login.html" name="LoginStrutsActionForm" path="/login" scope="session" type="struts.login.LoginStrutsAction" validate="false">
             <forward name="success" path="/search.jsp"/>
             <forward name="fail" path="/invalid.html" redirect="true"/>
+        </action>
+        <action input="/search.jsp" name="SearchStrutsActionForm" path="/search" scope="request" type="struts.search.SearchStrutsAction" validate="false">
+            <forward name="success" path="/search.jsp"/>
+        </action>
+        <action path="/delete" type="struts.delete.DeleteStrutsAction">
+            <forward name="success" path="/search.do"/>
+            <forward name="fail" path="/deleteError.html"/>
         </action>
         <action path="/controller" forward="/login.html"/>
         
