@@ -1,9 +1,10 @@
+package phatnh.servlet.staff;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package phatnh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,8 +24,8 @@ import phatnh.filter.DispatcherFilter;
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "DeleteServlet", urlPatterns = {"/DeleteServlet"})
-public class DeleteServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/staff/StaffSearchServlet"})
+public class StaffSearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,25 +38,35 @@ public class DeleteServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = DispatcherFilter.deleteErrorPage;
-        String mobileid = request.getParameter("mobileId");
-        String lastSearchId = request.getParameter("lastSearchId");
-        String lastSearchName = request.getParameter("lastSearchName");
         try {
-            MobileDAO dao = new MobileDAO();
-            boolean res = dao.deleteById(mobileid);
-            if (res) {
-                url = "Search.do"
-                        + "?mobileId=" + lastSearchId
-                        + "&mobileName=" + lastSearchName;
+            String mobileId = request.getParameter("mobileId");
+            String mobileName = request.getParameter("mobileName");
+            if (mobileId != null && mobileId.trim().length() > 0) {
+                MobileDAO dao = new MobileDAO();
+                dao.searchById(mobileId);
+                if (dao.getList() != null) {
+                    request.setAttribute("RES", dao.getList());
+                } else {
+                    request.setAttribute("message", "No mobile found with that ID!");
+                }
+            } else if (mobileName != null && mobileName.trim().length() > 0) {
+                MobileDAO dao = new MobileDAO();
+                dao.searchByName(mobileName);
+                if (dao.getList() != null) {
+                    request.setAttribute("RES", dao.getList());
+                } else {
+                    request.setAttribute("message", "No mobile found with that name!");
+                }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DeleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StaffSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NamingException ex) {
-            Logger.getLogger(DeleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StaffSearchServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            response.sendRedirect(url);
+            request.getRequestDispatcher(DispatcherFilter.staffPage)
+                    .forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

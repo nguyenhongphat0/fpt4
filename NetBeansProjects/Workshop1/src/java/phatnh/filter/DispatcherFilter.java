@@ -24,12 +24,16 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DispatcherFilter implements Filter {
     public static final String loginPage = "login.jsp";
-    public static final String staffPage = "staff.jsp";
-    public static final String searchPage = "search.jsp";
+    public static final String notFoundPage = "/404.html";
+    public static final String userPage = "search.jsp";
     public static final String managerPage = "manager.html";
-    public static final String deleteErrorPage = "deleteError.html";
-    public static final String updateErrorPage = "updateError.html";
-    public static final String insertErrorPage = "insertError.html";
+    public static final String staffPage = "search.jsp";
+    public static final String staffSearchServlet = "StaffSearchServlet";
+    public static final String staffDeleteServlet = "StaffDeleteServlet";
+    public static final String staffUpdateServlet = "StaffUpdateServlet";
+    public static final String staffAddMobileServlet = "StaffAddMobileServlet";
+    public static final String staffDeleteErrorPage = "deleteError.html";
+    public static final String staffUpdateErrorPage = "updateError.html";
     
     private static final boolean debug = true;
 
@@ -107,7 +111,7 @@ public class DispatcherFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest http = (HttpServletRequest) request;
         String path = http.getRequestURI();
-        String resource = path.substring(path.lastIndexOf("/"));
+        String resource = path.replace(request.getServletContext().getContextPath(), "");
         String url = resource;
         if (resource.contains(".do")) {
             url = resource.replace(".do", "Servlet");

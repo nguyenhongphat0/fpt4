@@ -15,18 +15,15 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import phatnh.user.UserDTO;
 
 /**
  *
  * @author nguyenhongphat0
  */
-public class LoginFilter implements Filter {
+public class StaffFilter implements Filter {
     
     private static final boolean debug = true;
 
@@ -35,13 +32,13 @@ public class LoginFilter implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
-    public LoginFilter() {
+    public StaffFilter() {
     }    
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AuthenticationFilter:DoBeforeProcessing");
+            log("StaffFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -69,7 +66,7 @@ public class LoginFilter implements Filter {
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AuthenticationFilter:DoAfterProcessing");
+            log("StaffFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -100,30 +97,16 @@ public class LoginFilter implements Filter {
      * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
+        UserDTO user = (UserDTO) req.getSession().getAttribute("USER");
         HttpServletResponse res = (HttpServletResponse) response;
-        HttpSession session = req.getSession();
-        UserDTO loggedUser = (UserDTO) session.getAttribute("USER");
-        if (loggedUser != null) {
-            String url = null;
-            switch (loggedUser.getRole()) {
-                case 0:
-                    url = DispatcherFilter.userPage;
-                    break;
-                case 1:
-                    url = DispatcherFilter.managerPage;
-                    break;
-                case 2:
-                    url = "staff/" + DispatcherFilter.staffPage;
-                    break;
-                default:
-                    break;
-            }
-            res.sendRedirect(url);
-        } else {
+        if (user != null && user.getRole() == 2) {
             chain.doFilter(request, response);
+        } else {
+            res.setStatus(404);
         }
     }
 
@@ -156,7 +139,7 @@ public class LoginFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {                
-                log("AuthenticationFilter:Initializing filter");
+                log("StaffFilter:Initializing filter");
             }
         }
     }
@@ -167,9 +150,9 @@ public class LoginFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("AuthenticationFilter()");
+            return ("StaffFilter()");
         }
-        StringBuffer sb = new StringBuffer("AuthenticationFilter(");
+        StringBuffer sb = new StringBuffer("StaffFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

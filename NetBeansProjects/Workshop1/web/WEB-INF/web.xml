@@ -8,11 +8,22 @@
         <filter-name>LoginFilter</filter-name>
         <filter-class>phatnh.filter.LoginFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>StaffFilter</filter-name>
+        <filter-class>phatnh.filter.StaffFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>StaffFilter</filter-name>
+        <url-pattern>/staff/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/login.jsp</url-pattern>
-        <url-pattern>/Login.do</url-pattern>
         <url-pattern>/LoginServlet</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
     <filter-mapping>
         <filter-name>DispatcherFilter</filter-name>
@@ -23,6 +34,10 @@
             30
         </session-timeout>
     </session-config>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
     <resource-ref>
         <res-ref-name>Datasource</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>

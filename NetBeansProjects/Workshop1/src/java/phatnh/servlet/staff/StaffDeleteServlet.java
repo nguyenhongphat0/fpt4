@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package phatnh.servlet;
+package phatnh.servlet.staff;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,8 +23,8 @@ import phatnh.filter.DispatcherFilter;
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "UpdateServlet", urlPatterns = {"/UpdateServlet"})
-public class UpdateServlet extends HttpServlet {
+@WebServlet(name = "DeleteServlet", urlPatterns = {"/staff/StaffDeleteServlet"})
+public class StaffDeleteServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,32 +37,22 @@ public class UpdateServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = DispatcherFilter.updateErrorPage;
+        String url = DispatcherFilter.staffDeleteErrorPage;
+        String mobileid = request.getParameter("mobileId");
+        String lastSearchId = request.getParameter("lastSearchId");
+        String lastSearchName = request.getParameter("lastSearchName");
         try {
-            String priceS = request.getParameter("price");
-            float price = Float.parseFloat(priceS);
-            String description = request.getParameter("description");
-            String quantityS = request.getParameter("quantity");
-            int quantity = Integer.parseInt(quantityS);
-            String notSaleS = request.getParameter("notSale");
-            boolean notSale = false;
-            if (notSaleS == null) {
-                notSale = true;
-            }
-            String mobileId = request.getParameter("mobileId");
-            String lastSearchId = request.getParameter("lastSearchId");
-            String lastSearchName = request.getParameter("lastSearchName");
             MobileDAO dao = new MobileDAO();
-            boolean res = dao.updateMobile(mobileId, price, description, quantity, notSale);
+            boolean res = dao.deleteById(mobileid);
             if (res) {
-                url = "Search.do"
+                url = DispatcherFilter.staffSearchServlet
                         + "?mobileId=" + lastSearchId
                         + "&mobileName=" + lastSearchName;
             }
-        } catch (NamingException ex) {
-            Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StaffDeleteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(StaffDeleteServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             response.sendRedirect(url);
         }

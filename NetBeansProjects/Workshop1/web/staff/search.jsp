@@ -13,14 +13,15 @@
         <title>Staff Page</title>
     </head>
     <body>
-        Welcome ${sessionScope.USER.fullName} (Staff)
+        Welcome ${sessionScope.USER.fullName} (Staff)<br>
+        <a href="../Logout.do">Logout</a>
         <h2>Search</h2>
-        <form action="Search.do">
+        <form action="StaffSearch.do">
             Search device with ID: 
             <input type="text" name="mobileId" value="${param.mobileId}" />
             <input type="submit" value="Search"/>
         </form>
-        <form action="Search.do">
+        <form action="StaffSearch.do">
             Search device with Name:
             <input type="text" name="mobileName" value="${param.mobileName}" />
             <input type="submit" value="Search"/>
@@ -45,12 +46,12 @@
                 </thead>
                 <tbody>
                     <c:forEach var="mobile" items="${requestScope.RES}" varStatus="counter">
-                        <c:url var="deleteLink" value="Delete.do">
+                        <c:url var="deleteLink" value="StaffDelete.do">
                             <c:param name="mobileId" value="${mobile.mobileId}"></c:param>
                             <c:param name="lastSearchId" value="${param.mobileId}"></c:param>
                             <c:param name="lastSearchName" value="${param.mobileName}"></c:param>
                         </c:url>
-                    <form action="Update.do" method="POST">
+                    <form action="StaffUpdate.do" method="POST">
                         <tr>
                             <td>${counter.count}</td>
                             <td>${mobile.mobileId}</td>
@@ -76,7 +77,7 @@
         </table>
     </c:if>
     <h2>Add</h2>
-    <form action="AddMobile.do" method="POST">
+    <form action="StaffAddMobile.do" method="POST">
         <table border="1">
             <thead>
                 <tr>

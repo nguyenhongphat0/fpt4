@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package phatnh.servlet;
+package phatnh.servlet.staff;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,8 +24,8 @@ import phatnh.mobile.MobileDAO;
  *
  * @author nguyenhongphat0
  */
-@WebServlet(name = "AddMobileServlet", urlPatterns = {"/AddMobileServlet"})
-public class AddMobileServlet extends HttpServlet {
+@WebServlet(name = "AddMobileServlet", urlPatterns = {"/staff/StaffAddMobileServlet"})
+public class StaffAddMobileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,7 +62,7 @@ public class AddMobileServlet extends HttpServlet {
                 MobileDAO dao = new MobileDAO();
                 boolean res = dao.addMobile(mobileId, description, price, mobileName, yearOfProduction, quantity, notSale);
                 if (res) {
-                    url = "SearchServlet"
+                    url = DispatcherFilter.staffSearchServlet
                             + "?mobileId=" + mobileId;
                 }
             }
@@ -70,10 +70,10 @@ public class AddMobileServlet extends HttpServlet {
             if (ex.getMessage().contains("duplicate")) {
                 validator.setError("pk", "Mobile ID existed");
             } else {
-                Logger.getLogger(AddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StaffAddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (NamingException ex) {
-            Logger.getLogger(AddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StaffAddMobileServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             request.setAttribute("errors", validator.getErrors());
             request.getRequestDispatcher(url).forward(request, response);

@@ -1,10 +1,9 @@
-package phatnh.servlet;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package phatnh.servlet.staff;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,8 +23,8 @@ import phatnh.filter.DispatcherFilter;
  *
  * @author nguyenhongphat0
  */
-@WebServlet(urlPatterns = {"/SearchServlet"})
-public class SearchServlet extends HttpServlet {
+@WebServlet(name = "UpdateServlet", urlPatterns = {"/staff/StaffUpdateServlet"})
+public class StaffUpdateServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,35 +37,35 @@ public class SearchServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String url = DispatcherFilter.staffUpdateErrorPage;
         try {
-            String mobileId = request.getParameter("mobileId");
-            String mobileName = request.getParameter("mobileName");
-            if (mobileId != null && mobileId.trim().length() > 0) {
-                MobileDAO dao = new MobileDAO();
-                dao.searchById(mobileId);
-                if (dao.getList() != null) {
-                    request.setAttribute("RES", dao.getList());
-                } else {
-                    request.setAttribute("message", "No mobile found with that ID!");
-                }
-            } else if (mobileName != null && mobileName.trim().length() > 0) {
-                MobileDAO dao = new MobileDAO();
-                dao.searchByName(mobileName);
-                if (dao.getList() != null) {
-                    request.setAttribute("RES", dao.getList());
-                } else {
-                    request.setAttribute("message", "No mobile found with that name!");
-                }
+            String priceS = request.getParameter("price");
+            float price = Float.parseFloat(priceS);
+            String description = request.getParameter("description");
+            String quantityS = request.getParameter("quantity");
+            int quantity = Integer.parseInt(quantityS);
+            String notSaleS = request.getParameter("notSale");
+            boolean notSale = false;
+            if (notSaleS == null) {
+                notSale = true;
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            String mobileId = request.getParameter("mobileId");
+            String lastSearchId = request.getParameter("lastSearchId");
+            String lastSearchName = request.getParameter("lastSearchName");
+            MobileDAO dao = new MobileDAO();
+            boolean res = dao.updateMobile(mobileId, price, description, quantity, notSale);
+            if (res) {
+                url = DispatcherFilter.staffSearchServlet
+                        + "?mobileId=" + lastSearchId
+                        + "&mobileName=" + lastSearchName;
+            }
         } catch (NamingException ex) {
-            Logger.getLogger(SearchServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StaffUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(StaffUpdateServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            request.getRequestDispatcher(DispatcherFilter.staffPage)
-                    .forward(request, response);
+            response.sendRedirect(url);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
