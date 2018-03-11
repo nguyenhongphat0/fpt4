@@ -1,0 +1,29 @@
+mượn: kashimasu
+cho mượn: karimasu
+
+Chia động từ thể tê
+Động từ nhóm 3: ['kimasu', 'shimasu', 'danh động từ (N + shimasu)'] -> bỏ masu thêm tê
+-> {kite, shite, danh động từ (N + shite)};
+Động từ nhóm 2:
+	if (V.endsWith("ê") == true) {
+		V = V.replace("masu", "tê");
+	}
+exception e -> e.size() == 9
+e.items = ['ôkimasu' => 'thức dậy', 'mimasu', 'dekimasu' => 'có thể', 'kimasu' => 'mặc', 'tarimasu' => 'đầy đủ',
+'karimasu', 'imasu', 'abimasu' => 'tắm', 'orimasu' => 'xuống xe'];
+Động từ nhóm 1:
+
+
+か'い'ます　か'って'
+ま'ち'ます　ま'って'
+と'り'ます　と'って'
+
+よ'み'ます　よ'んで'
+あそ'び'ます　おそ'んで'
+し'に'ます　し'んで'
+
+か'き'ます　か'いて'
+いそ'ぎ'ます　いそ'いで'
+
+はな'し'ます　はな'して'
+'いきます'　'いって'

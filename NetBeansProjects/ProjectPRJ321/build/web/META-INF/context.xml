@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/ProjectPRJ321">
+    <Resource name="Datasource" auth="Container" username="sa" password="HongPhat0"
+        url="jdbc:sqlserver://localhost:1433;databaseName=projectprj321"
+        type="javax.sql.DataSource" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver">
+    </Resource>
+</Context>
