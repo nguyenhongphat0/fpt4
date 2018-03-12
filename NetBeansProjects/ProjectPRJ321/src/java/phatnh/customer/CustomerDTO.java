@@ -84,6 +84,10 @@ public class CustomerDTO implements Serializable {
     public void setCustLevel(int custLevel) {
         this.custLevel = custLevel;
     }
+    
+    public String getFullName() {
+        return lastName + " " + middleName + " " + custName;
+    }
 
     public CustomerDTO() {
     }

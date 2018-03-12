@@ -16,6 +16,10 @@
         <param-name>orderListPage</param-name>
         <param-value>orderList.jsp</param-value>
     </context-param>
+    <context-param>
+        <param-name>orderDetailPage</param-name>
+        <param-value>orderDetail.jsp</param-value>
+    </context-param>
     <filter>
         <filter-name>DispatcherFilter</filter-name>
         <filter-class>phatnh.filter.DispatcherFilter</filter-class>
@@ -34,6 +38,10 @@
         <servlet-name>SearchOrderServlet</servlet-name>
         <servlet-class>phatnh.servlet.SearchOrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetDetailServlet</servlet-name>
+        <servlet-class>phatnh.servlet.GetDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -41,6 +49,10 @@
     <servlet-mapping>
         <servlet-name>SearchOrderServlet</servlet-name>
         <url-pattern>/SearchOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDetailServlet</servlet-name>
+        <url-pattern>/GetDetailServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -45,9 +45,21 @@
                 <tbody>
                     <c:forEach var="order" items="${res}" varStatus="counter">
                         <c:if test="${order.isDeliver eq delivered}">
+                            <fmt:formatDate var="orderDate" value="${order.orderDate}" pattern="d/M/yyyy"></fmt:formatDate>
+                            <c:url var="viewLink" value="GetDetail.do">
+                                <c:param name="orderID" value="${order.orderID}"></c:param>
+                                <c:param name="custID" value="${order.custID}"></c:param>
+                                <c:param name="total" value="${order.total}"></c:param>
+                                <c:param name="orderDate" value="${orderDate}"></c:param>
+                                <c:param name="fromdate" value="${param.fromdate}"></c:param>
+                                <c:param name="todate" value="${param.todate}"></c:param>
+                                <c:if test="${not empty param.delivered}">
+                                    <c:param name="delivered" value="true"></c:param>
+                                </c:if>
+                            </c:url>
                             <tr>
                                 <td>${counter.count}</td>
-                                <td><fmt:formatDate value="${order.orderDate}" pattern="d/M/yyyy"></fmt:formatDate></td>
+                                <td>${orderDate}</td>
                                 <td><fmt:formatNumber value="${order.total}" type="number"></fmt:formatNumber></td>
                                 <td>${order.custID}</td>
                                 <td>
@@ -56,7 +68,7 @@
                                     />
                                 </td>
                                 <td>${order.reason}</td>
-                                <td>View</td>
+                                <td><a href="${viewLink}">View</a></td>
                             </tr>
                         </c:if>
                     </c:forEach>
