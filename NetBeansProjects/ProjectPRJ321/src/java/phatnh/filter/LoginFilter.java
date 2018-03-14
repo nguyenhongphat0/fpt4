@@ -19,6 +19,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import phatnh.customer.CustomerDTO;
 
 /**
  *
@@ -107,8 +108,8 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        String custID = (String) session.getAttribute("custID");
-        if (custID != null) {
+        CustomerDTO cust = (CustomerDTO) session.getAttribute("CUST");
+        if (cust != null) {
             res.sendRedirect(searchPage);
         } else {
             chain.doFilter(request, response);

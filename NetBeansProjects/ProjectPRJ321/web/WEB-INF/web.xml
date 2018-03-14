@@ -24,6 +24,14 @@
         <param-name>registerPage</param-name>
         <param-value>register.jsp</param-value>
     </context-param>
+    <context-param>
+        <param-name>shopingPage</param-name>
+        <param-value>shoping.jsp</param-value>
+    </context-param>
+    <context-param>
+        <param-name>showAllBookServlet</param-name>
+        <param-value>ShowAllBookServlet</param-value>
+    </context-param>
     <filter>
         <filter-name>DispatcherFilter</filter-name>
         <filter-class>phatnh.filter.DispatcherFilter</filter-class>
@@ -42,7 +50,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
-        <url-pattern></url-pattern>
+        <url-pattern/>
         <url-pattern>/login.html</url-pattern>
         <url-pattern>/invalid.html</url-pattern>
     </filter-mapping>
@@ -52,8 +60,6 @@
         <url-pattern>/orderList.jsp</url-pattern>
         <url-pattern>/orderDetail.jsp</url-pattern>
         <url-pattern>/search.html</url-pattern>
-        <url-pattern>/SearchOrderServlet</url-pattern>
-        <url-pattern>/GetDetailServlet</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
@@ -77,6 +83,14 @@
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>phatnh.servlet.LogoutServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowAllBookServlet</servlet-name>
+        <servlet-class>phatnh.servlet.ShowAllBookServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddBookToCartServlet</servlet-name>
+        <servlet-class>phatnh.servlet.AddBookToCartServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -96,6 +110,14 @@
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowAllBookServlet</servlet-name>
+        <url-pattern>/ShowAllBookServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBookToCartServlet</servlet-name>
+        <url-pattern>/AddBookToCartServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

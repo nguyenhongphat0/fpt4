@@ -50,9 +50,9 @@ public class GetDetailServlet extends HttpServlet {
             request.setAttribute("CUST", custDto);
             request.setAttribute("DETAIL", detailDao.getDetailList());
         } catch (NamingException ex) {
-            Logger.getLogger(GetDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
+            log("GetDetailServlet - NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
-            Logger.getLogger(GetDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
+            log("GetDetailServlet - SQLException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

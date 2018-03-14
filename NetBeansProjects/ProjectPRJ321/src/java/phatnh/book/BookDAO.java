@@ -26,7 +26,7 @@ public class BookDAO implements Serializable {
         return bookList;
     }
 
-    public void getAll() throws NamingException, SQLException {
+    public void getAllBooks() throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement pre = null;
         ResultSet res = null;

@@ -62,12 +62,12 @@ public class SearchOrderServlet extends HttpServlet {
                 }
             }
         } catch (NamingException ex) {
-            Logger.getLogger(SearchOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
+            log("SearchOrderServlet - NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
             if (ex.getMessage().contains("datetime")) {
                 request.setAttribute("msg", "Invalid date format. Year must be above 1753");
             } else {
-                Logger.getLogger(SearchOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
+                log("SearchOrderServlet - SQLException: " + ex.getMessage());
             }
         } catch (IllegalArgumentException ex) {
             request.setAttribute("msg", "Invalid date format. Year must be smaller than 9999");
