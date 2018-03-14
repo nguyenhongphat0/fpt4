@@ -75,18 +75,19 @@
                 </tbody>
             </table>
         </c:if>
-        <form action="SearchOrder.do">
-            <input type="hidden" name="fromdate" value="${param.fromdate}" />
-            <input type="hidden" name="todate" value="${param.todate}" />
-            <c:if test="${delivered}">
-                <input type="submit" value="UnDelivered" />
-            </c:if>
-            <c:if test="${not delivered}">
-                <input type="hidden" name="delivered" value="true"/>
-                <input type="submit" value="Delivered" />
-            </c:if>
-        </form>
-        <a href="search.html">Search Order</a><br>
-        <a href="login.html">Login Page</a><br>
+        <c:if test="${empty requestScope.msg}">
+            <form action="SearchOrder.do">
+                <input type="hidden" name="fromdate" value="${param.fromdate}" />
+                <input type="hidden" name="todate" value="${param.todate}" />
+                <c:if test="${delivered}">
+                    <input type="submit" value="UnDelivered" />
+                </c:if>
+                <c:if test="${not delivered}">
+                    <input type="hidden" name="delivered" value="true"/>
+                    <input type="submit" value="Delivered" />
+                </c:if>
+            </form>
+        </c:if>
+        <jsp:include page="reference.html"></jsp:include>
     </body>
 </html>

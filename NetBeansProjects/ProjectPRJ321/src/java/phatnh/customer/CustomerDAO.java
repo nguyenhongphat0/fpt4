@@ -18,11 +18,10 @@ import phatnh.utils.DatabaseUtils;
  * @author nguyenhongphat0
  */
 public class CustomerDAO implements Serializable {
-    public boolean checkLogin(String username, String password) throws NamingException, SQLException {
+    public String checkLogin(String username, String password) throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement pre = null;
         ResultSet res = null;
-        boolean check = false;
         try {
             con = DatabaseUtils.getConnection();
             String sql = "SELECT * FROM customer WHERE custID = ? AND password = ?";
@@ -31,7 +30,7 @@ public class CustomerDAO implements Serializable {
             pre.setString(2, password);
             res = pre.executeQuery();
             if (res.next()) {
-                check = true;
+                return res.getString("custID");
             }
         } finally {
             if (res != null) {
@@ -44,7 +43,7 @@ public class CustomerDAO implements Serializable {
                 con.close();
             }
         }
-        return check;
+        return null;
     }
     
     public CustomerDTO getCustomer(String custID) throws NamingException, SQLException {
@@ -81,5 +80,32 @@ public class CustomerDAO implements Serializable {
             }
         }
         return null;
+    }
+    
+    public boolean createCustomer(CustomerDTO dto) throws NamingException, SQLException {
+        Connection con = null;
+        PreparedStatement pre = null;
+        try {
+            con = DatabaseUtils.getConnection();
+            String sql = "INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            pre = con.prepareStatement(sql);
+            pre.setString(1, dto.getCustID());
+            pre.setString(2, dto.getPassword());
+            pre.setString(3, dto.getCustName());
+            pre.setString(4, dto.getLastName());
+            pre.setString(5, dto.getMiddleName());
+            pre.setString(6, dto.getAddress());
+            pre.setString(7, dto.getPhone());
+            pre.setInt(8, dto.getCustLevel());
+            int res = pre.executeUpdate();
+            return res > 0;
+        } finally {
+            if (pre != null) {
+                pre.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 }

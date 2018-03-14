@@ -20,13 +20,40 @@
         <param-name>orderDetailPage</param-name>
         <param-value>orderDetail.jsp</param-value>
     </context-param>
+    <context-param>
+        <param-name>registerPage</param-name>
+        <param-value>register.jsp</param-value>
+    </context-param>
     <filter>
         <filter-name>DispatcherFilter</filter-name>
         <filter-class>phatnh.filter.DispatcherFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name>AuthorizeFilter</filter-name>
+        <filter-class>phatnh.filter.AuthorizeFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>phatnh.filter.LoginFilter</filter-class>
+    </filter>
     <filter-mapping>
         <filter-name>DispatcherFilter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern></url-pattern>
+        <url-pattern>/login.html</url-pattern>
+        <url-pattern>/invalid.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthorizeFilter</filter-name>
+        <url-pattern>/shoping.jsp</url-pattern>
+        <url-pattern>/orderList.jsp</url-pattern>
+        <url-pattern>/orderDetail.jsp</url-pattern>
+        <url-pattern>/search.html</url-pattern>
+        <url-pattern>/SearchOrderServlet</url-pattern>
+        <url-pattern>/GetDetailServlet</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
@@ -42,6 +69,14 @@
         <servlet-name>GetDetailServlet</servlet-name>
         <servlet-class>phatnh.servlet.GetDetailServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>phatnh.servlet.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>phatnh.servlet.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -53,6 +88,14 @@
     <servlet-mapping>
         <servlet-name>GetDetailServlet</servlet-name>
         <url-pattern>/GetDetailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

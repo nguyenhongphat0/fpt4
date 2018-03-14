@@ -13,10 +13,23 @@ and open the template in the editor.
     <body>
         <h1>Login Page</h1>
         <form action="Login.do" method="POST">
-            Username <input type="text" name="username" value="" /><br>
-            Password <input type="password" name="password" value="" /><br>
-            <input type="submit" value="Login" />
-            <input type="reset" value="Reset" />
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Username: </td>
+                        <td><input type="text" name="username" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type="password" name="password" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" value="Login" /></td>
+                        <td><input type="reset" value="Reset" /></td>
+                    </tr>
+                </tbody>
+            </table>
         </form>
+        <a href="register.jsp">Register</a>
     </body>
 </html>

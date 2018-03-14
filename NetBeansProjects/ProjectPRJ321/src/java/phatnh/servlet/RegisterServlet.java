@@ -17,16 +17,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import phatnh.customer.CustomerDAO;
-import phatnh.filter.DispatcherFilter;
-import phatnh.utils.DatabaseUtils;
+import phatnh.customer.CustomerDTO;
+import phatnh.utils.Validator;
 
 /**
  *
  * @author nguyenhongphat0
  */
-public class LoginServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,23 +38,45 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
         ServletContext sc = getServletContext();
-        String url = sc.getInitParameter("invalidPage");
+        String url = sc.getInitParameter("registerPage");
+        Validator valid = new Validator();
         try {
-            CustomerDAO dao = new CustomerDAO();
-            String custID = dao.checkLogin(username, password);
-            if (custID != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("custID", custID);
-                url = sc.getInitParameter("searchPage");
+            String custID = request.getParameter("custID");
+            String password = request.getParameter("password");
+            String confirm = request.getParameter("confirm");
+            String custName = request.getParameter("custName");
+            String lastName = request.getParameter("lastName");
+            String middleName = request.getParameter("middleName");
+            String address = request.getParameter("address");
+            String phone = request.getParameter("phone");
+            valid.checkLength(custID, 1, 10, "idLength", "ID must be 1 - 10 characters")
+                    .checkLength(password, 1, 30, "passwordLength", "Password must be 1 - 30 characters")
+                    .checkLength(custName, 0, 15, "nameLength", "Name must be <= 15 characters")
+                    .checkLength(lastName, 0, 15, "lastNameLength", "Last name must be <= 15 characters")
+                    .checkLength(middleName, 0, 15, "middleNameLength", "Middle name must be <= 15 characters")
+                    .checkLength(address, 0, 250, "addressLength", "Address must be <= 250 characters")
+                    .checkLength(phone, 0, 11, "phoneLength", "Phone must be <= 11 characters")
+                    .checkConfirm(password, confirm, "confirmNotMatch", "Password confirm not match")
+                    .checkFormat(phone, "\\+?\\d+", "phoneFormat", "Invalid phone format. A valid phone must contains only numbers and +");
+            if (valid.isValid()) {
+                CustomerDTO dto = new CustomerDTO(custID, password, custName, lastName, middleName, address, phone, 0);
+                CustomerDAO dao = new CustomerDAO();
+                boolean res = dao.createCustomer(dto);
+                if (res) {
+                    url = sc.getInitParameter("loginPage");
+                }
             }
         } catch (NamingException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            if (ex.getMessage().contains("duplicate")) {
+                valid.setError("duplicatePK", "Customer ID existed! Please try another");
+            } else {
+                Logger.getLogger(RegisterServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } finally {
+            request.setAttribute("ERRORS", valid.getErrors());
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }

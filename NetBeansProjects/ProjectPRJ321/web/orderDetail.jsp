@@ -76,7 +76,6 @@
             </c:if>
         </c:url>
         <a href="${searchLink}">Back to search result</a>
-        <a href="search.html">Search Order</a>
-        <a href="login.html">Login Page</a>
+        <jsp:include page="reference.html"></jsp:include>
     </body>
 </html>
