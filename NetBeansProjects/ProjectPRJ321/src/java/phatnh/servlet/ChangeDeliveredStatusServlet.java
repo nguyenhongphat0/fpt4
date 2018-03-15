@@ -7,10 +7,9 @@ package phatnh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.List;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -21,13 +20,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import phatnh.order.OrderDAO;
-import phatnh.order.OrderDTO;
 
 /**
  *
  * @author nguyenhongphat0
  */
-public class SearchOrderServlet extends HttpServlet {
+public class ChangeDeliveredStatusServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,44 +39,41 @@ public class SearchOrderServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        String url = sc.getInitParameter("orderListPage");
+        String url = sc.getInitParameter("errorPage");
         try {
-            String fromDateString = request.getParameter("fromdate");
-            String toDateString = request.getParameter("todate");
-            String deliveredS = request.getParameter("delivered");
-            boolean delivered = false;
-            if (deliveredS != null) {
-                delivered = true;
-            }
-            if (fromDateString.trim().length() == 0 || toDateString.trim().length() == 0) {
-                url = sc.getInitParameter("searchPage");
-            } else {
-                Date fromDate = Date.valueOf(fromDateString);
-                Date toDate = Date.valueOf(toDateString);
-                Timestamp from = new Timestamp(fromDate.getTime());
-                Timestamp to = new Timestamp(toDate.getTime());
+            String fromdate = request.getParameter("fromdate");
+            String todate = request.getParameter("todate");
+            String[] ids = request.getParameterValues("orderID");
+            String isDeliverS = request.getParameter("delivered");
+            if (ids != null) {
+                boolean isDeliver = true;
+                if (isDeliverS == null) {
+                    isDeliver = false;
+                }
                 OrderDAO dao = new OrderDAO();
-                dao.searchBetween(from, to, delivered);
-                List<OrderDTO> list = dao.getOrdersList();
-                if (list != null) {
-                    request.setAttribute("RES", list);
-                } else {
-                    request.setAttribute("msg", "No order found!!!");
+                boolean res = true;
+                for (String id : ids) {
+                    boolean ck = dao.changeStatus(id, !isDeliver);
+                    if (ck == false) {
+                        res = false;
+                    }
+                }
+                if (res) {
+                    url = sc.getInitParameter("searchOrderServlet")
+                            + "?fromdate=" + fromdate
+                            + "&todate=" + todate;
+                    if (isDeliver) {
+                        url += "&delivered=true";
+                    }
                 }
             }
+                
         } catch (NamingException ex) {
-            log("SearchOrderServlet - NamingException: " + ex.getMessage());
+            log("ChangeDiliveredStatusServlet - NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
-            if (ex.getMessage().contains("datetime")) {
-                request.setAttribute("msg", "Invalid date format. Year must be above 1753");
-            } else {
-                log("SearchOrderServlet - SQLException: " + ex.getMessage());
-            }
-        } catch (IllegalArgumentException ex) {
-            request.setAttribute("msg", "Invalid date format. Year must be smaller than 9999");
+            log("ChangeDiliveredStatusServlet - SQLException: " + ex.getMessage());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
         
     }

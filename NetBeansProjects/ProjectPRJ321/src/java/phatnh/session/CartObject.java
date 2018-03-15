@@ -67,7 +67,6 @@ public class CartObject implements Serializable {
         OrderDetailDTO orderDetailDTO = getCartItem(book);
         if (orderDetailDTO == null) {
             orderDetailDTO = new OrderDetailDTO();
-            orderDetailDTO.setOrderID(this.order.getOrderID());
             orderDetailDTO.setProductID(book.getBookID());
             orderDetailDTO.setQuantity(0);
             orderDetailDTO.setUnitPrice(book.getPrice());
@@ -81,5 +80,8 @@ public class CartObject implements Serializable {
         total += price;
         orderDetailDTO.setQuantity(quantity);
         orderDetailDTO.setTotal(total);
+        total = order.getTotal();
+        total += price;
+        order.setTotal(total);
     }
 }

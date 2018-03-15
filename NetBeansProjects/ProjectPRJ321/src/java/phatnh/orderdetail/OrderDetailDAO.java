@@ -61,4 +61,29 @@ public class OrderDetailDAO implements Serializable {
             }
         }
     }
+    
+    public boolean insertDetail(OrderDetailDTO dto, String orderID) throws SQLException, NamingException {
+        Connection con = null;
+        PreparedStatement pre = null;
+        try {
+            con = DatabaseUtils.getConnection();
+            String sql = "INSERT INTO tbl_orderDetail(productID, quantity, unitPrice, total, orderID) "
+                    + "VALUES (?, ?, ?, ?, ?)";
+            pre = con.prepareStatement(sql);
+            pre.setString(1, dto.getProductID());
+            pre.setInt(2, dto.getQuantity());
+            pre.setFloat(3, dto.getUnitPrice());
+            pre.setFloat(4, dto.getTotal());
+            pre.setString(5, orderID);
+            int res = pre.executeUpdate();
+            return res > 0;
+        } finally {
+            if (pre != null) {
+                pre.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
 }

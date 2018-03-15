@@ -7,10 +7,19 @@ package phatnh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import phatnh.order.OrderDAO;
+import phatnh.session.CartObject;
 
 /**
  *
@@ -29,7 +38,29 @@ public class SubmitCartServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        ServletContext sc = getServletContext();
+        String url = sc.getInitParameter("showAllBookServlet");
+        try {
+            HttpSession session = request.getSession();
+            CartObject cart = (CartObject) session.getAttribute("CART");
+            if (cart != null) {
+                OrderDAO dao = new OrderDAO();
+                boolean res = dao.submitCart(cart);
+                if (res) {
+                    request.setAttribute("msg", "Your cart has been submited successfully");
+                    session.removeAttribute("CART");
+                } else {
+                    request.setAttribute("msg", "Error submiting your cart");
+                }
+            }
+        } catch (NamingException ex) {
+            log("SubmitCartServlet - NamingException: " + ex.getMessage());
+        } catch (SQLException ex) {
+            log("SubmitCartServlet - SQLException: " + ex.getMessage());
+        } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

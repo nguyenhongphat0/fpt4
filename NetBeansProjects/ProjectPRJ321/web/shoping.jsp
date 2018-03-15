@@ -54,6 +54,7 @@
         <c:if test="${not empty custName}">
             <c:set var="custName" value="${cust.custID}"></c:set>
         </c:if>
+        ${msg}
         <c:if test="${not empty cart}">
             <h2>${custName}'s Cart</h2>
             <c:set var="cartItems" value="${cart.detailList}"></c:set>

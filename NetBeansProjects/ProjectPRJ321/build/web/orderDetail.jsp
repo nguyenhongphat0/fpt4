@@ -4,6 +4,7 @@
     Author     : nguyenhongphat0
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -56,13 +57,16 @@
                             <td>${counter.count}</td>
                             <td>${detail.productID}</td>
                             <td>${detail.quantity}</td>
-                            <td>${detail.unitPrice}</td>
-                            <td>${detail.total}</td>
+                            <fmt:formatNumber var="unitPrice" value="${detail.unitPrice}" type="number"></fmt:formatNumber>
+                            <td>${unitPrice}</td>
+                            <fmt:formatNumber var="total" value="${detail.total}" type="number"></fmt:formatNumber>
+                            <td>${total}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
-            Total: ${param.total}
+            <fmt:formatNumber var="total" value="${param.total}" type="number"></fmt:formatNumber>
+            Total: ${total}
         </c:if>
         <c:if test="${empty details}">
             No detail to view

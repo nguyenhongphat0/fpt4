@@ -29,6 +29,14 @@
         <param-value>shoping.jsp</param-value>
     </context-param>
     <context-param>
+        <param-name>errorPage</param-name>
+        <param-value>errorPage.html</param-value>
+    </context-param>
+    <context-param>
+        <param-name>searchOrderServlet</param-name>
+        <param-value>SearchOrderServlet</param-value>
+    </context-param>
+    <context-param>
         <param-name>showAllBookServlet</param-name>
         <param-value>ShowAllBookServlet</param-value>
     </context-param>
@@ -60,6 +68,8 @@
         <url-pattern>/orderList.jsp</url-pattern>
         <url-pattern>/orderDetail.jsp</url-pattern>
         <url-pattern>/search.html</url-pattern>
+        <url-pattern>/SubmitCartServlet</url-pattern>
+        <url-pattern>/ChangeDeliveredStatusServlet</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
@@ -95,6 +105,10 @@
         <servlet-name>SubmitCartServlet</servlet-name>
         <servlet-class>phatnh.servlet.SubmitCartServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangeDeliveredStatusServlet</servlet-name>
+        <servlet-class>phatnh.servlet.ChangeDeliveredStatusServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -126,6 +140,10 @@
     <servlet-mapping>
         <servlet-name>SubmitCartServlet</servlet-name>
         <url-pattern>/SubmitCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeDeliveredStatusServlet</servlet-name>
+        <url-pattern>/ChangeDeliveredStatusServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
