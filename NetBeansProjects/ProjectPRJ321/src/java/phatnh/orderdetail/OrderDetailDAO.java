@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.naming.NamingException;
+import phatnh.book.BookDAO;
 import phatnh.utils.DatabaseUtils;
 
 /**
@@ -64,6 +65,7 @@ public class OrderDetailDAO implements Serializable {
     
     public boolean insertDetail(Connection con, OrderDetailDTO dto, String orderID) throws SQLException, NamingException {
         PreparedStatement pre = null;
+        boolean res = false;
         try {
             String sql = "INSERT INTO tbl_orderDetail(productID, quantity, unitPrice, total, orderID) "
                     + "VALUES (?, ?, ?, ?, ?)";
@@ -73,12 +75,16 @@ public class OrderDetailDAO implements Serializable {
             pre.setFloat(3, dto.getUnitPrice());
             pre.setFloat(4, dto.getTotal());
             pre.setString(5, orderID);
-            int res = pre.executeUpdate();
-            return res > 0;
+            int rows = pre.executeUpdate();
+            if (rows > 0) {
+                BookDAO dao = new BookDAO();
+                res = dao.takeBookAway(con, dto.getProductID(), dto.getQuantity());
+            }
         } finally {
             if (pre != null) {
                 pre.close();
             }
         }
+        return res;
     }
 }

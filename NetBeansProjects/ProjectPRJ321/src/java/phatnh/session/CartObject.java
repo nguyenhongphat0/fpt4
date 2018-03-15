@@ -63,6 +63,16 @@ public class CartObject implements Serializable {
         return null;
     }
     
+    public boolean removeFromCart(String bookID) {
+        for (OrderDetailDTO orderDetailDTO : detailList) {
+            if (orderDetailDTO.getProductID().equals(bookID)) {
+                detailList.remove(orderDetailDTO);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void addToCart(BookDTO book) {
         OrderDetailDTO orderDetailDTO = getCartItem(book);
         if (orderDetailDTO == null) {

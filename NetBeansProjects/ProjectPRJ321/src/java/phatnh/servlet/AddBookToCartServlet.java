@@ -58,8 +58,7 @@ public class AddBookToCartServlet extends HttpServlet {
         } catch (NullPointerException e) {
             log("AddBookToCartServlet - NullPointerException: " + e.getMessage());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
         
     }

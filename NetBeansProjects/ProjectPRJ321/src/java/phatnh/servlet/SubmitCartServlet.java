@@ -56,7 +56,11 @@ public class SubmitCartServlet extends HttpServlet {
         } catch (NamingException ex) {
             log("SubmitCartServlet - NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
-            log("SubmitCartServlet - SQLException: " + ex.getMessage());
+            if (ex.getMessage().contains("quantity")) {
+                request.setAttribute("quantityMsg", "Sorry, your order have more book than we got left, please remove some!");
+            } else {
+                log("SubmitCartServlet - SQLException: " + ex.getMessage());
+            }
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

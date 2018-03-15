@@ -109,6 +109,10 @@
         <servlet-name>ChangeDeliveredStatusServlet</servlet-name>
         <servlet-class>phatnh.servlet.ChangeDeliveredStatusServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <servlet-class>phatnh.servlet.RemoveFromCartServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -145,6 +149,10 @@
         <servlet-name>ChangeDeliveredStatusServlet</servlet-name>
         <url-pattern>/ChangeDeliveredStatusServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <url-pattern>/RemoveFromCartServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -153,6 +161,10 @@
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
     </welcome-file-list>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
     <resource-ref>
         <res-ref-name>Datasource</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>

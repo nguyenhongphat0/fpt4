@@ -58,4 +58,20 @@ public class BookDAO implements Serializable {
             }
         }
     }
+    
+    public boolean takeBookAway(Connection con, String bookID, int quantity) throws NamingException, SQLException {
+        PreparedStatement pre = null;
+        try {
+            String sql = "UPDATE tbl_book SET quantity = quantity - ? WHERE bookID = ?";
+            pre = con.prepareStatement(sql);
+            pre.setInt(1, quantity);
+            pre.setString(2, bookID);
+            int res = pre.executeUpdate();
+            return res > 0;
+        } finally {
+            if (pre != null) {
+                pre.close();
+            }
+        }
+    }
 }

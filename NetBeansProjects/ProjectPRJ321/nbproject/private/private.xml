@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/web/orderList.jsp</file>
-            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/src/java/phatnh/servlet/RegisterServlet.java</file>
-            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/src/java/phatnh/order/OrderDAO.java</file>
-            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/src/java/phatnh/servlet/ChangeDeliveredStatusServlet.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/src/java/phatnh/servlet/AddBookToCartServlet.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/web/WEB-INF/web.xml</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/src/java/phatnh/servlet/RemoveFromCartServlet.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/ProjectPRJ321/src/java/phatnh/servlet/LogoutServlet.java</file>
         </group>
     </open-files>
 </project-private>

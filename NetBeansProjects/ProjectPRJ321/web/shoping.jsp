@@ -54,7 +54,6 @@
         <c:if test="${not empty custName}">
             <c:set var="custName" value="${cust.custID}"></c:set>
         </c:if>
-        ${msg}
         <c:if test="${not empty cart}">
             <h2>${custName}'s Cart</h2>
             <c:set var="cartItems" value="${cart.detailList}"></c:set>
@@ -67,6 +66,7 @@
                             <th>Quantity</th>
                             <th>Unit Price</th>
                             <th>Total</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -79,12 +79,22 @@
                                 <td>${unitPrice}</td>
                                 <fmt:formatNumber var="total" value="${item.total}" type="number"></fmt:formatNumber>
                                 <td>${total}</td>
+                                <td>
+                                    <c:url var="removeLink" value="RemoveFromCart.do">
+                                        <c:param name="bookID" value="${item.productID}"></c:param>
+                                    </c:url>
+                                    <a href="${removeLink}">Remove from cart</a>
+                                </td>
                             </tr>
                         </c:forEach>               
                     </tbody>
                 </table>
+                ${removeFromCartMsg}<br>
                 <a href="SubmitCart.do">Order Now!</a>
             </c:if>
         </c:if>
+        <br>
+        ${msg}
+        <span style="color: red">${quantityMsg}</span>
     </body>
 </html>
