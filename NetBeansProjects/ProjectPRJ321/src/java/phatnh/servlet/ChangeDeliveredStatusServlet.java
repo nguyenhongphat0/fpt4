@@ -38,33 +38,33 @@ public class ChangeDeliveredStatusServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        String url = sc.getInitParameter("errorPage");
+        ServletContext sc = getServletContext();        
+        String url = sc.getInitParameter("searchOrderServlet");
         try {
             String fromdate = request.getParameter("fromdate");
             String todate = request.getParameter("todate");
             String[] ids = request.getParameterValues("orderID");
             String isDeliverS = request.getParameter("delivered");
+            boolean isDeliver = true;
+            if (isDeliverS == null) {
+                isDeliver = false;
+            }
+            url += "?fromdate=" + fromdate + "&todate=" + todate;
+            if (isDeliver) {
+                url += "&delivered=true";
+            }
             if (ids != null) {
-                boolean isDeliver = true;
-                if (isDeliverS == null) {
-                    isDeliver = false;
-                }
                 OrderDAO dao = new OrderDAO();
                 boolean res = true;
                 for (String id : ids) {
-                    boolean ck = dao.changeStatus(id, !isDeliver);
+                    String reason = request.getParameter(id + "reason");
+                    boolean ck = dao.changeStatus(id, !isDeliver, reason);
                     if (ck == false) {
                         res = false;
                     }
                 }
-                if (res) {
-                    url = sc.getInitParameter("searchOrderServlet")
-                            + "?fromdate=" + fromdate
-                            + "&todate=" + todate;
-                    if (isDeliver) {
-                        url += "&delivered=true";
-                    }
+                if (!res) {
+                    url = sc.getInitParameter("errorPage");
                 }
             }
                 

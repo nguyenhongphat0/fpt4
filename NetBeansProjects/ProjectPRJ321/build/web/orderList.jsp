@@ -62,7 +62,9 @@
                                 <td>
                                     <input type="checkbox" name="orderID" value="${order.orderID}" />
                                 </td>
-                                <td>${order.reason}</td>
+                                <td>
+                                    <input type="text" name="${order.orderID}reason" value="${order.reason}" />
+                                </td>
                                 <td><a href="${viewLink}">View</a></td>
                             </tr>
                         </c:forEach>

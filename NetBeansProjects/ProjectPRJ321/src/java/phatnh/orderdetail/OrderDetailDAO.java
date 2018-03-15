@@ -62,11 +62,9 @@ public class OrderDetailDAO implements Serializable {
         }
     }
     
-    public boolean insertDetail(OrderDetailDTO dto, String orderID) throws SQLException, NamingException {
-        Connection con = null;
+    public boolean insertDetail(Connection con, OrderDetailDTO dto, String orderID) throws SQLException, NamingException {
         PreparedStatement pre = null;
         try {
-            con = DatabaseUtils.getConnection();
             String sql = "INSERT INTO tbl_orderDetail(productID, quantity, unitPrice, total, orderID) "
                     + "VALUES (?, ?, ?, ?, ?)";
             pre = con.prepareStatement(sql);
@@ -80,9 +78,6 @@ public class OrderDetailDAO implements Serializable {
         } finally {
             if (pre != null) {
                 pre.close();
-            }
-            if (con != null) {
-                con.close();
             }
         }
     }

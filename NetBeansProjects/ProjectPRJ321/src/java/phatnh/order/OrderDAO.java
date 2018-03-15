@@ -67,15 +67,16 @@ public class OrderDAO {
         }
     }
     
-    public boolean changeStatus(String orderID, boolean isDeliver) throws NamingException, SQLException {
+    public boolean changeStatus(String orderID, boolean isDeliver, String reason) throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement pre = null;
         try {
             con = DatabaseUtils.getConnection();
-            String sql = "UPDATE tbl_order SET isDeliver = ? WHERE orderID = ?";
+            String sql = "UPDATE tbl_order SET isDeliver = ?, Reason = ? WHERE orderID = ?";
             pre = con.prepareStatement(sql);
             pre.setBoolean(1, isDeliver);
-            pre.setString(2, orderID);
+            pre.setString(2, reason);
+            pre.setString(3, orderID);
             int res = pre.executeUpdate();
             return res > 0;
         } finally {
@@ -96,19 +97,14 @@ public class OrderDAO {
         boolean res = true;
         try {
             con = DatabaseUtils.getConnection();
+            con.setAutoCommit(false);
             String sql = "SELECT 'o' + TRIM(STR(COUNT(*))) FROM tbl_order";
             pre = con.prepareStatement(sql);
             keys = pre.executeQuery();
             if (keys.next()) {
                 key = keys.getString(1);
             }
-            sql = "INSERT INTO tbl_order VALUES (" +
-                "	?," +
-                "	getdate()," +
-                "	?," +
-                "	?," +
-                "	0," +
-                "	'')";
+            sql = "INSERT INTO tbl_order VALUES (?, getdate(), ?, ?, 0, '')";
             pre = con.prepareStatement(sql);
             pre.setString(1, key);
             pre.setString(2, cart.getCustomer().getCustID());
@@ -119,13 +115,22 @@ public class OrderDAO {
             } else {
                 OrderDetailDAO dao = new OrderDetailDAO();
                 for (OrderDetailDTO orderDetailDTO : cart.getDetailList()) {
-                    boolean detailRes = dao.insertDetail(orderDetailDTO, key);
+                    boolean detailRes = dao.insertDetail(con, orderDetailDTO, key);
                     if (!detailRes) {
                         res = false;
                     }
                 }
             }
+            if (res) {
+                con.commit();
+            } else {
+                con.rollback();
+            }
+        } catch (SQLException e) {
+            con.rollback();
+            throw e;
         } finally {
+            con.setAutoCommit(true);
             if (keys != null) {
                 keys.close();
             }
