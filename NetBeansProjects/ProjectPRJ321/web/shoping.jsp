@@ -82,6 +82,7 @@
                         </c:forEach>               
                     </tbody>
                 </table>
+                <a href="SubmitCart.do">Order Now!</a>
             </c:if>
         </c:if>
     </body>

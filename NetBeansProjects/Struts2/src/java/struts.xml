@@ -36,8 +36,10 @@
             <result>register.jsp</result>
         </action>
         <action name="createuser" class="struts2.RegisterAction">
+            <exception-mapping exception="java.sql.SQLException" result="input"></exception-mapping>
             <result name="success">login.html</result>
             <result name="fail">register.jsp</result>
+            <result name="input">register.jsp</result>
         </action>
     </package>
 </struts>

@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Register</title>
+        <s:head/>
     </head>
     <body>
         <h1>Create new account</h1>
@@ -23,6 +24,10 @@
             <s:textfield name="lastname" label="Lastname"></s:textfield>
             <s:label value="chars: 2 - 50"></s:label>
             <s:submit value="Submit"></s:submit>
-        </s:form>
+        </s:form><br>
+        
+        <s:if test="%{exception.message.contains('duplicate')}">
+            <s:property value="username"></s:property> is existed!!!
+        </s:if>
     </body>
 </html>

@@ -91,6 +91,10 @@
         <servlet-name>AddBookToCartServlet</servlet-name>
         <servlet-class>phatnh.servlet.AddBookToCartServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SubmitCartServlet</servlet-name>
+        <servlet-class>phatnh.servlet.SubmitCartServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -118,6 +122,10 @@
     <servlet-mapping>
         <servlet-name>AddBookToCartServlet</servlet-name>
         <url-pattern>/AddBookToCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitCartServlet</servlet-name>
+        <url-pattern>/SubmitCartServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
