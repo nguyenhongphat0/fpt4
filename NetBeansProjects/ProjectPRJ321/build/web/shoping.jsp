@@ -96,5 +96,6 @@
         <br>
         ${msg}
         <span style="color: red">${quantityMsg}</span>
+        <jsp:include page="reference.html"></jsp:include>
     </body>
 </html>

@@ -56,7 +56,7 @@ public class SearchOrderServlet extends HttpServlet {
                 Date fromDate = Date.valueOf(fromDateString);
                 Date toDate = Date.valueOf(toDateString);
                 Timestamp from = new Timestamp(fromDate.getTime());
-                Timestamp to = new Timestamp(toDate.getTime());
+                Timestamp to = new Timestamp(toDate.getTime() + 86400000);
                 OrderDAO dao = new OrderDAO();
                 dao.searchBetween(from, to, delivered);
                 List<OrderDTO> list = dao.getOrdersList();

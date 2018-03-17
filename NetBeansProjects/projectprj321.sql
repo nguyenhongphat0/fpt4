@@ -14,7 +14,7 @@ CREATE TABLE projectprj321.dbo.tbl_book (
 	bookID varchar(10) NOT NULL,
 	title varchar(50),
 	price float NOT NULL,
-	quantity int NOT NULL,
+	quantity int NOT NULL CHECK (quantity >= 0),
 	CONSTRAINT tbl_book_PK PRIMARY KEY (bookID)
 )
 CREATE TABLE projectprj321.dbo.tbl_order (
