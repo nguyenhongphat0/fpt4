@@ -18,7 +18,7 @@ import phatnh.utils.DatabaseUtils;
  * @author nguyenhongphat0
  */
 public class UserDAO implements Serializable {
-    public boolean checkLogin(String userId, int password) throws NamingException, SQLException {
+    public int checkLogin(String userId, int password) throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement pre = null;
         ResultSet res = null;
@@ -30,7 +30,7 @@ public class UserDAO implements Serializable {
             pre.setInt(2, password);
             res = pre.executeQuery();
             if (res.next()) {
-                return true;
+                return res.getInt("role");
             }
         } finally {
             if (res != null) {
@@ -43,6 +43,6 @@ public class UserDAO implements Serializable {
                 con.close();
             }
         }
-        return false;
+        return -1;
     }
 }

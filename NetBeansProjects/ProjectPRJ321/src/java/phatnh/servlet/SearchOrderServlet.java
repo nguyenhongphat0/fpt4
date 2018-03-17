@@ -76,7 +76,7 @@ public class SearchOrderServlet extends HttpServlet {
                 log("SearchOrderServlet - SQLException: " + ex.getMessage());
             }
         } catch (IllegalArgumentException ex) {
-            request.setAttribute("msg", "Invalid date format. Date must be MM-dd-yyyy");
+            request.setAttribute("msg", "Invalid date format. Date must be yyyy-MM-dd");
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
