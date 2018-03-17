@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,12 +71,12 @@ public class SearchOrderServlet extends HttpServlet {
             log("SearchOrderServlet - NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
             if (ex.getMessage().contains("datetime")) {
-                request.setAttribute("msg", "Invalid date format. Year must be above 1753");
+                request.setAttribute("msg", "Year too small. Year must be above 1753");
             } else {
                 log("SearchOrderServlet - SQLException: " + ex.getMessage());
             }
         } catch (IllegalArgumentException ex) {
-            request.setAttribute("msg", "Invalid date format. Year must be smaller than 9999");
+            request.setAttribute("msg", "Invalid date format. Date must be MM-dd-yyyy");
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

@@ -30,7 +30,7 @@
     </context-param>
     <context-param>
         <param-name>errorPage</param-name>
-        <param-value>errorPage.html</param-value>
+        <param-value>errorPage.jsp</param-value>
     </context-param>
     <context-param>
         <param-name>searchOrderServlet</param-name>

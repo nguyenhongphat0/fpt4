@@ -58,8 +58,7 @@ public class LoginServlet extends HttpServlet {
         } catch (SQLException ex) {
             log("LoginServlet - SQLException: " + ex.getMessage());
         } finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+            response.sendRedirect(url);
         }
     }
 
