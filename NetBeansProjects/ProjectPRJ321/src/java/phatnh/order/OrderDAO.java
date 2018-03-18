@@ -5,6 +5,7 @@
  */
 package phatnh.order;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +23,7 @@ import phatnh.utils.DatabaseUtils;
  *
  * @author nguyenhongphat0
  */
-public class OrderDAO {
+public class OrderDAO implements Serializable {
     private List<OrderDTO> ordersList;
 
     public List<OrderDTO> getOrdersList() {

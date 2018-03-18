@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page errorPage="true" %>
+<%@page isErrorPage="true" %>
 <!DOCTYPE html>
 <html>
     <head>

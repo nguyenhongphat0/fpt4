@@ -5,11 +5,13 @@
  */
 package phatnh.mobile;
 
+import java.io.Serializable;
+
 /**
  *
  * @author nguyenhongphat0
  */
-public class MobileDTO {
+public class MobileDTO implements Serializable {
     private String mobileId;
     private String description;
     private float price;

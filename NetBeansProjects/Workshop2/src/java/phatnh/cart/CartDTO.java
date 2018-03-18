@@ -5,6 +5,7 @@
  */
 package phatnh.cart;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import phatnh.user.UserDTO;
@@ -13,7 +14,7 @@ import phatnh.user.UserDTO;
  *
  * @author nguyenhongphat0
  */
-public class CartDTO {
+public class CartDTO implements Serializable {
     private UserDTO user;
     private Map<String, Integer> items;
 

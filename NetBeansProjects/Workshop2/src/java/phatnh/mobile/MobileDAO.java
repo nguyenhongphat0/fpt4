@@ -5,6 +5,7 @@
  */
 package phatnh.mobile;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import phatnh.utils.DatabaseUtils;
  *
  * @author nguyenhongphat0
  */
-public class MobileDAO {
+public class MobileDAO implements Serializable {
     private List<MobileDTO> list;
 
     public List<MobileDTO> getList() {

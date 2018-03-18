@@ -25,13 +25,13 @@
             <s:textfield name="mobileName" label="Search by name"></s:textfield>
             <s:submit value="Search"></s:submit>
         </s:form>
-        <s:if test="#parameters.mobileId != null">
+        <s:if test="mobileId != null">
             <s:set var="lst" value="'Id'"></s:set>
-            <s:set var="lsv" value="#parameters.mobileId"></s:set>
+            <s:set var="lsv" value="mobileId"></s:set>
         </s:if>
-        <s:if test="#parameters.mobileName != null">
+        <s:if test="mobileName != null">
             <s:set var="lst" value="'Name'"></s:set>
-            <s:set var="lsv" value="#parameters.mobileName"></s:set>
+            <s:set var="lsv" value="mobileName"></s:set>
         </s:if>
         <s:if test="#lsv != null">
             <s:if test="%{list != null}">

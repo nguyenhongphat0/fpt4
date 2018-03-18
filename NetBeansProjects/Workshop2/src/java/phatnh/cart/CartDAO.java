@@ -5,6 +5,7 @@
  */
 package phatnh.cart;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import phatnh.utils.DatabaseUtils;
  *
  * @author nguyenhongphat0
  */
-public class CartDAO {
+public class CartDAO implements Serializable {
     public boolean checkout(CartDTO cart) throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement pre = null;
