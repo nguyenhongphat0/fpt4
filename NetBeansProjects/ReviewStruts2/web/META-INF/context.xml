@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/ReviewStruts2">
+    <Resource name="Datasource" auth="Container" url="jdbc:sqlserver://localhost:1433;databaseName=reviewstruts2"
+        driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" type="javax.sql.DataSource"
+        username="sa" password="HongPhat0">
+    </Resource>
+</Context>
