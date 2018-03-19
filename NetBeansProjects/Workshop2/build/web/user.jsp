@@ -14,6 +14,8 @@
         <s:head></s:head>
     </head>
     <body>
+        Welcome <s:property value="#session.userId"></s:property><br>
+        <s:a action="logout">Logout</s:a>
         <h1>Search Price</h1>
         <s:form action="searchPrice" method="get">
             <s:textfield name="min" label="From" type="number"></s:textfield>

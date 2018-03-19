@@ -15,7 +15,8 @@
         <s:head></s:head>
     </head>
     <body>
-        Welcome <s:property value="#session.userId"></s:property>
+        Welcome <s:property value="#session.userId"></s:property><br>
+        <s:a action="logout">Logout</s:a>
             <h1>Search</h1>
         <s:form action="searchId" method="get">
             <s:textfield name="mobileId" label="Search by ID"></s:textfield>
