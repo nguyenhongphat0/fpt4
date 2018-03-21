@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/PHATNHSE63348_PracticalExam/web/WEB-INF/web.xml</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/PHATNHSE63348_PracticalExam/src/java/phatnhse63348/struts2/AddToCartAction.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/PHATNHSE63348_PracticalExam/src/java/phatnhse63348/struts2/CheckoutAction.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/PHATNHSE63348_PracticalExam/src/java/phatnhse63348/struts2/LoginAction.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/PHATNHSE63348_PracticalExam/src/java/phatnhse63348/order/OrderDAO.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/PHATNHSE63348_PracticalExam/src/java/phatnhse63348/filter/AuthorizationFilter.java</file>
+            <file>file:/home/nguyenhongphat0/NetBeansProjects/PHATNHSE63348_PracticalExam/web/search.jsp</file>
+        </group>
+    </open-files>
+</project-private>

@@ -12,9 +12,9 @@ Nha sach thi o giua sieu thi va benh vien
 Chi ha dang nau an, chi mai dang nghe dia cd tieng nhat
 Haさんはりょっています、MaiさんはにほんごのCDをきいています。
 Xin hay noi lai 1 lan nua bang tieng Anh, (mouichido)
-もういちどえごをきいてください。
+もういちどえいごをきいてください。
 Vi toi khong biet tieng Trung Quoc, xin hay chi toi cach doc chu Han tu nay.
-わたしはcひゅうごくをわかりませんから、このにほんごのごをききかたかしてください。
+わたしはcひゅうごくごがわかりませんから、このかんじのよみかたをあしてください。
 Ai da muon dia CD tieng Anh v? -> Anh Tom da muon,
 だれはえごのCDをかりましたか。ー＞トムさん。
 Ao thun cua ban la cai nao? La cai mau do kia
@@ -22,4 +22,4 @@ Ao thun cua ban la cai nao? La cai mau do kia
 Toi an mi bang dua va muong
 わたしははしとスプンでﾗｰﾒﾝをたべます。
 O cong vien dam sen co le hoi
-DamSeんバークにまつりがあります。
+DamSeんkoendeまつりがあります。
