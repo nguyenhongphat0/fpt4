@@ -1,0 +1,3 @@
+[submodule "NetBeansProjects/DemoJenkins"]
+	path = NetBeansProjects/DemoJenkins
+	url = https://github.com/nguyenhongphat0/DemoJenkins
