@@ -8,12 +8,7 @@ package phatnh.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,44 +33,38 @@ public class ChangeDeliveredStatusServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();        
+        ServletContext sc = getServletContext();
         String url = sc.getInitParameter("searchOrderServlet");
         try {
             String fromdate = request.getParameter("fromdate");
             String todate = request.getParameter("todate");
             String[] ids = request.getParameterValues("orderID");
-            String isDeliverS = request.getParameter("delivered");
-            boolean isDeliver = true;
-            if (isDeliverS == null) {
-                isDeliver = false;
+            String delivered = request.getParameter("delivered");
+            boolean isDeliver = delivered != null;
+            OrderDAO dao = new OrderDAO();
+            boolean res = true;
+            for (String id : ids) {
+                String reason = request.getParameter(id + "reason");
+                boolean ck = dao.changeStatus(id, !isDeliver, reason);
+                if (!ck) {
+                    res = false;
+                }
             }
-            url += "?fromdate=" + fromdate + "&todate=" + todate;
+            if (!res) {
+                request.setAttribute("msg", "Error changing status of these order!");
+            }
+            url += "?fromdate=" + fromdate
+                    + "&todate=" + todate;
             if (isDeliver) {
                 url += "&delivered=true";
             }
-            if (ids != null) {
-                OrderDAO dao = new OrderDAO();
-                boolean res = true;
-                for (String id : ids) {
-                    String reason = request.getParameter(id + "reason");
-                    boolean ck = dao.changeStatus(id, !isDeliver, reason);
-                    if (ck == false) {
-                        res = false;
-                    }
-                }
-                if (!res) {
-                    url = sc.getInitParameter("errorPage");
-                }
-            }
-                
-        } catch (NamingException ex) {
-            log("ChangeDiliveredStatusServlet - NamingException: " + ex.getMessage());
-        } catch (SQLException ex) {
-            log("ChangeDiliveredStatusServlet - SQLException: " + ex.getMessage());
+        } catch (SQLException e) {
+            log("ChangeDeliveredStatusServlet - SQLException: " + e.getMessage());
+        } catch (NamingException e) {
+            log("ChangeDeliveredStatusServlet - NamingException: " + e.getMessage());
         } finally {
             response.sendRedirect(url);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -8,6 +8,7 @@ package phatnh.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import phatnh.customer.CustomerDAO;
 import phatnh.customer.CustomerDTO;
 import phatnh.orderdetail.OrderDetailDAO;
+import phatnh.orderdetail.OrderDetailDTO;
 
 /**
  *
@@ -41,14 +43,15 @@ public class GetDetailServlet extends HttpServlet {
         ServletContext sc = getServletContext();
         String url = sc.getInitParameter("orderDetailPage");
         try {
-            String custID = request.getParameter("custID");
             String orderID = request.getParameter("orderID");
+            String custID = request.getParameter("custID");
             CustomerDAO custDao = new CustomerDAO();
-            CustomerDTO custDto = custDao.getCustomer(custID);
-            OrderDetailDAO detailDao = new OrderDetailDAO();
-            detailDao.getOrderDetail(orderID);
-            request.setAttribute("CUST", custDto);
-            request.setAttribute("DETAIL", detailDao.getDetailList());
+            CustomerDTO customer = custDao.getCustomer(custID);
+            OrderDetailDAO odDao = new OrderDetailDAO();
+            odDao.getOrderDetail(orderID);
+            List<OrderDetailDTO> detailList = odDao.getDetailList();
+            request.setAttribute("DETAIL", detailList);
+            request.setAttribute("CUST", customer);
         } catch (NamingException ex) {
             log("GetDetailServlet - NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
@@ -57,6 +60,7 @@ public class GetDetailServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

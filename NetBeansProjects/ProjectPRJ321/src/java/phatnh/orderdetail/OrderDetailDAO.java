@@ -38,7 +38,7 @@ public class OrderDetailDAO implements Serializable {
             pre.setString(1, orderID);
             res = pre.executeQuery();
             while (res.next()) {                
-                if (detailList == null) {
+                if (this.detailList == null) {
                     this.detailList = new ArrayList<>();
                 }
                 OrderDetailDTO dto = new OrderDetailDTO();
@@ -47,8 +47,8 @@ public class OrderDetailDAO implements Serializable {
                 dto.setQuantity(res.getInt(3));
                 dto.setUnitPrice(res.getFloat(4));
                 dto.setTotal(res.getFloat(5));
-                dto.setOrderID(res.getString(6));
-                detailList.add(dto);
+                dto.setOrderID(orderID);
+                this.detailList.add(dto);
             }
         } finally {
             if (res != null) {
@@ -65,10 +65,10 @@ public class OrderDetailDAO implements Serializable {
     
     public boolean insertDetail(Connection con, OrderDetailDTO dto, String orderID) throws SQLException, NamingException {
         PreparedStatement pre = null;
-        boolean res = false;
+        
         try {
             String sql = "INSERT INTO tbl_orderDetail(productID, quantity, unitPrice, total, orderID) "
-                    + "VALUES (?, ?, ?, ?, ?)";
+                    + "VALUES(?, ?, ?, ?, ?)";
             pre = con.prepareStatement(sql);
             pre.setString(1, dto.getProductID());
             pre.setInt(2, dto.getQuantity());
@@ -78,13 +78,14 @@ public class OrderDetailDAO implements Serializable {
             int rows = pre.executeUpdate();
             if (rows > 0) {
                 BookDAO dao = new BookDAO();
-                res = dao.takeBookAway(con, dto.getProductID(), dto.getQuantity());
+                boolean res = dao.takeBookAway(con, dto.getProductID(), dto.getQuantity());
+                return res;
             }
         } finally {
             if (pre != null) {
                 pre.close();
             }
         }
-        return res;
+        return false;
     }
 }

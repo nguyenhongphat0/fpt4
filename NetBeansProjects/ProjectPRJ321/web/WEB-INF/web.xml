@@ -78,14 +78,6 @@
         <servlet-class>phatnh.servlet.LoginServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchOrderServlet</servlet-name>
-        <servlet-class>phatnh.servlet.SearchOrderServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>GetDetailServlet</servlet-name>
-        <servlet-class>phatnh.servlet.GetDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>phatnh.servlet.RegisterServlet</servlet-class>
     </servlet>
@@ -106,24 +98,24 @@
         <servlet-class>phatnh.servlet.SubmitCartServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <servlet-class>phatnh.servlet.RemoveFromCartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchOrderServlet</servlet-name>
+        <servlet-class>phatnh.servlet.SearchOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ChangeDeliveredStatusServlet</servlet-name>
         <servlet-class>phatnh.servlet.ChangeDeliveredStatusServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>RemoveFromCartServlet</servlet-name>
-        <servlet-class>phatnh.servlet.RemoveFromCartServlet</servlet-class>
+        <servlet-name>GetDetailServlet</servlet-name>
+        <servlet-class>phatnh.servlet.GetDetailServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SearchOrderServlet</servlet-name>
-        <url-pattern>/SearchOrderServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GetDetailServlet</servlet-name>
-        <url-pattern>/GetDetailServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
@@ -146,12 +138,20 @@
         <url-pattern>/SubmitCartServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>RemoveFromCartServlet</servlet-name>
+        <url-pattern>/RemoveFromCartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchOrderServlet</servlet-name>
+        <url-pattern>/SearchOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ChangeDeliveredStatusServlet</servlet-name>
         <url-pattern>/ChangeDeliveredStatusServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>RemoveFromCartServlet</servlet-name>
-        <url-pattern>/RemoveFromCartServlet</url-pattern>
+        <servlet-name>GetDetailServlet</servlet-name>
+        <url-pattern>/GetDetailServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

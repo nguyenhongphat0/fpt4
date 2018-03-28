@@ -39,28 +39,20 @@ public class AddBookToCartServlet extends HttpServlet {
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
         String url = sc.getInitParameter("showAllBookServlet");
-        try {
-            String bookID = request.getParameter("bookID");
-            String title = request.getParameter("title");
-            String priceS = request.getParameter("price");
-            float price = Float.parseFloat(priceS);
-            HttpSession session = request.getSession();
-            CartObject cart = (CartObject) session.getAttribute("CART");
-            CustomerDTO custDTO = (CustomerDTO) session.getAttribute("CUST");
-            if (cart == null) {
-                cart = new CartObject(custDTO);
-            }
-            BookDTO bookDto = new BookDTO(bookID, title, price, 0);
-            cart.addToCart(bookDto);
-            session.setAttribute("CART", cart);
-        } catch (NumberFormatException e) {
-            log("AddBookToCartServlet - NumberFormatException: " + e.getMessage());
-        } catch (NullPointerException e) {
-            log("AddBookToCartServlet - NullPointerException: " + e.getMessage());
-        } finally {
-            response.sendRedirect(url);
+        String bookID = request.getParameter("bookID");
+        String title = request.getParameter("title");
+        String priceS = request.getParameter("price");
+        float price = Float.parseFloat(priceS);
+        HttpSession session = request.getSession();
+        CartObject cart = (CartObject) session.getAttribute("CART");
+        CustomerDTO user = (CustomerDTO) session.getAttribute("CUST");
+        if (cart == null) {
+            cart = new CartObject(user);
         }
-        
+        BookDTO book = new BookDTO(bookID, title, price, 0);
+        cart.addToCart(book);
+        session.setAttribute("CART", cart);
+        response.sendRedirect(url);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

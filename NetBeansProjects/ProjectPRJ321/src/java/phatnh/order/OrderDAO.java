@@ -93,31 +93,29 @@ public class OrderDAO implements Serializable {
     public boolean submitCart(CartObject cart) throws NamingException, SQLException {
         Connection con = null;
         PreparedStatement pre = null;
-        ResultSet keys = null;
+        ResultSet rs = null;
         String key = null;
         boolean res = true;
         try {
             con = DatabaseUtils.getConnection();
             con.setAutoCommit(false);
-            String sql = "SELECT 'o' + TRIM(STR(COUNT(*))) FROM tbl_order";
+            String sql = "SELECT COUNT(*) FROM tbl_order";
             pre = con.prepareStatement(sql);
-            keys = pre.executeQuery();
-            if (keys.next()) {
-                key = keys.getString(1);
+            rs = pre.executeQuery();
+            if (rs.next()) {
+                key = rs.getString(1);
             }
-            sql = "INSERT INTO tbl_order VALUES (?, getdate(), ?, ?, 0, '')";
+            sql = "INSERT INTO tbl_order VALUES(?, getdate(), ?, ?, 0, '')";
             pre = con.prepareStatement(sql);
             pre.setString(1, key);
             pre.setString(2, cart.getCustomer().getCustID());
             pre.setFloat(3, cart.getOrder().getTotal());
             int rows = pre.executeUpdate();
-            if (rows == 0) {
-                res = false;
-            } else {
+            if (rows > 0) {
                 OrderDetailDAO dao = new OrderDetailDAO();
                 for (OrderDetailDTO orderDetailDTO : cart.getDetailList()) {
-                    boolean detailRes = dao.insertDetail(con, orderDetailDTO, key);
-                    if (!detailRes) {
+                    boolean ck = dao.insertDetail(con, orderDetailDTO, key);
+                    if (ck == false) {
                         res = false;
                     }
                 }
@@ -131,9 +129,8 @@ public class OrderDAO implements Serializable {
             con.rollback();
             throw e;
         } finally {
-            con.setAutoCommit(true);
-            if (keys != null) {
-                keys.close();
+            if (rs != null) {
+                rs.close();
             }
             if (pre != null) {
                 pre.close();
@@ -143,5 +140,5 @@ public class OrderDAO implements Serializable {
             }
         }
         return res;
-    }
+    } 
 }

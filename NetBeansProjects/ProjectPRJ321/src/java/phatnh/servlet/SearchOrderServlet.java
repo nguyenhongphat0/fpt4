@@ -7,10 +7,8 @@ package phatnh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,44 +42,24 @@ public class SearchOrderServlet extends HttpServlet {
         ServletContext sc = getServletContext();
         String url = sc.getInitParameter("orderListPage");
         try {
-            String fromDateString = request.getParameter("fromdate");
-            String toDateString = request.getParameter("todate");
+            String fromdateS = request.getParameter("fromdate");
+            String todateS = request.getParameter("todate");
             String deliveredS = request.getParameter("delivered");
-            boolean delivered = false;
-            if (deliveredS != null) {
-                delivered = true;
-            }
-            if (fromDateString.trim().length() == 0 || toDateString.trim().length() == 0) {
-                url = sc.getInitParameter("searchPage");
-            } else {
-                Date fromDate = Date.valueOf(fromDateString);
-                Date toDate = Date.valueOf(toDateString);
-                Timestamp from = new Timestamp(fromDate.getTime());
-                Timestamp to = new Timestamp(toDate.getTime() + 86400000);
-                OrderDAO dao = new OrderDAO();
-                dao.searchBetween(from, to, delivered);
-                List<OrderDTO> list = dao.getOrdersList();
-                if (list != null) {
-                    request.setAttribute("RES", list);
-                } else {
-                    request.setAttribute("msg", "No order found!!!");
-                }
-            }
+            Timestamp fromdate = Timestamp.valueOf(fromdateS + " 00:00:00");
+            Timestamp todate = Timestamp.valueOf(todateS + " 23:59:59");
+            boolean delivered = deliveredS != null;
+            OrderDAO dao = new OrderDAO();
+            dao.searchBetween(fromdate, todate, delivered);
+            List<OrderDTO> list = dao.getOrdersList();
+            request.setAttribute("RES", list);
         } catch (NamingException ex) {
             log("SearchOrderServlet - NamingException: " + ex.getMessage());
         } catch (SQLException ex) {
-            if (ex.getMessage().contains("datetime")) {
-                request.setAttribute("msg", "Year too small. Year must be above 1753");
-            } else {
-                log("SearchOrderServlet - SQLException: " + ex.getMessage());
-            }
-        } catch (IllegalArgumentException ex) {
-            request.setAttribute("msg", "Invalid date format. Date must be yyyy-MM-dd");
+            log("SearchOrderServlet - SQLException: " + ex.getMessage());
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
